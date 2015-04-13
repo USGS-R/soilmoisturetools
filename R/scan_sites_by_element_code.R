@@ -2,7 +2,7 @@
 
 #'@title Grab all scan sites with certain parameter
 #'
-#'@param element_code SCAN element code (see \code{\link{scan_elements}} for full list of codes)
+#'@param elementCd SCAN element code (see \code{\link{scan_elements}} for full list of codes)
 #'
 #'@return A list of site triplets as character strings
 #'

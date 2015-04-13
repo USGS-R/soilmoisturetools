@@ -7,7 +7,7 @@
 scan_sites_by_element_code(elementCd)
 }
 \arguments{
-\item{element_code}{SCAN element code (see \code{\link{scan_elements}} for full list of codes)}
+\item{elementCd}{SCAN element code (see \code{\link{scan_elements}} for full list of codes)}
 }
 \value{
 A list of site triplets as character strings
