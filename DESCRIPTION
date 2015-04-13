@@ -1,11 +1,14 @@
 Package: soilmoisturetools
 Title: USGS Soil Moisture Portal tools
 Maintainer: Luke Winslow <lwinslow@usgs.gov>
-Version: 0.1.0
+Version: 0.1.1
 Author: Luke Winslow
-Description: Tools for accessing and processing soil moisture services.
+Description: Tools for accessing, processing and plotting soil moisture services.
 Imports: 
 	XML,
-	httr (>= 0.5)
+	httr (>= 0.5),
+  leaflet,
+  htmlwidgets,
+  dplyr
 License: file LICENSE
 Repository: http://github.com/lawinslow/soilmoisturer
