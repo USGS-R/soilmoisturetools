@@ -4,7 +4,7 @@
 \alias{moisture_map}
 \title{create a leaflet map for soilmoisture}
 \usage{
-moisture_map(depth, out_file = "soilmoisture_usgs.html")
+moisture_map(depth, out_file)
 }
 \arguments{
 \item{depth}{in inches for sensors}
@@ -16,7 +16,7 @@ create a leaflet map for soilmoisture
 }
 \examples{
 \dontrun{
-moisture_map(-2)
+moisture_map(-2,  out_file= 'soilmoisture_usgs.html')
 }
 }
 

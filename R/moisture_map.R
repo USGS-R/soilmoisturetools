@@ -7,10 +7,10 @@
 #'@importFrom XML getNodeSet xmlRoot htmlParse
 #'@examples
 #'\dontrun{
-#'moisture_map(-2)
+#'moisture_map(-2,  out_file= 'soilmoisture_usgs.html')
 #'}
 #'@export
-moisture_map <- function(depth, out_file = 'soilmoisture_usgs.html'){
+moisture_map <- function(depth, out_file){
   sites = scan_sites_by_element_code('SMS')
   
   ca_sites <- sites#[is_ca]
@@ -45,12 +45,12 @@ moisture_map <- function(depth, out_file = 'soilmoisture_usgs.html'){
                      options = markerOptions(zIndexOffset = 9)) %>%
     setView(-109.36, 36.67, zoom = 4)
   
-  saveWidget(m, 'soilmoisture_usgs.html', selfcontained = FALSE, libdir = NULL)
-  doc = htmlParse('soilmoisture_usgs.html',isURL=FALSE, useInternalNodes = TRUE)
+  saveWidget(m, out_file, selfcontained = FALSE, libdir = NULL)
+  doc = htmlParse(out_file,isURL=FALSE, useInternalNodes = TRUE)
   top = xmlRoot(doc)
   div_node <- getNodeSet(top, "//div[contains(@id,'htmlwidget_container')]/div[1]")
   div_node[[1]] <- add_svg_legend(div_node[[1]],
                                   cols = cols(leg_vals), names = leg_vals, title = 'Soil moisture [-]')
-  saveXML(doc, file = 'soilmoisture_usgs.html')
+  saveXML(doc, file = out_file)
   return(out_file)
 }
