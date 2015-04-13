@@ -14,4 +14,9 @@ moisture_map(depth, out_file = "soilmoisture_usgs.html")
 \description{
 create a leaflet map for soilmoisture
 }
+\examples{
+\dontrun{
+moisture_map(-2)
+}
+}
 

@@ -18,16 +18,16 @@ add_svg_legend <- function(parent_node, width = 300, height = 100, cols, names, 
   bar_w = (width-2*m_spc-(n_bars-1)*b_spc)/n_bars
   leg_div = newXMLNode("div", attrs = c(class='my-legend'))
   svg <- newXMLNode('svg', attrs = c('width'=width, 'height' = height))
-  addChildren(svg, newXMLNode('style','<style>
+  addChildren(svg, newXMLNode('style',sprintf('<style>
                          
                            .my-legend{
 								 position: fixed;
 								 top: 0px;
 								 left: 30px;
-								 width: 100%;
-								 height: 100%;
+								 width: %spx;
+								 height: %spx;
 								 z-index:99;}
-	                         </style>'))
+	                         </style>'), width, height))
   addChildren(svg, newXMLNode('text', title, attrs = c(x=width/2, y=height-(v_spc+20+b_hgt),'text-anchor'="middle", 'font-size'=16)))
   
   for (i in 1:length(cols)){

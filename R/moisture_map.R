@@ -2,9 +2,13 @@
 #'@param depth in inches for sensors
 #'@param out_file html output file name for leaflet map
 #'@importFrom htmlwidgets saveWidget
-#'@importFrom dplyr select filter %>%
+#'@importFrom dplyr select filter %>% left_join
 #'@import leaflet
 #'@importFrom XML getNodeSet xmlRoot htmlParse
+#'@examples
+#'\dontrun{
+#'moisture_map(-2)
+#'}
 #'@export
 moisture_map <- function(depth, out_file = 'soilmoisture_usgs.html'){
   sites = scan_sites_by_element_code('SMS')
@@ -34,14 +38,14 @@ moisture_map <- function(depth, out_file = 'soilmoisture_usgs.html'){
   
   
   m = leaflet(station_loc) %>% 
-    addTiles(options = tileOptions(zIndex = 2, maxZoom = 8, minZoom = 4)) %>% 
+    addTiles(options = tileOptions(zIndex = 0, maxZoom = 8, minZoom = 4)) %>% 
     addCircleMarkers(~lng, ~lat, popup = pops,
                      fillColor = ~cols(value), color = "grey60", 
                      fillOpacity = 0.8, radius = 6, opacity = 0.8, 
-                     options = markerOptions(zIndexOffset = -1)) %>%
+                     options = markerOptions(zIndexOffset = 9)) %>%
     setView(-109.36, 36.67, zoom = 4)
   
-  saveWidget(m, 'soilmoisture_usgs.html', selfcontained = TRUE, libdir = NULL)
+  saveWidget(m, 'soilmoisture_usgs.html', selfcontained = FALSE, libdir = NULL)
   doc = htmlParse('soilmoisture_usgs.html',isURL=FALSE, useInternalNodes = TRUE)
   top = xmlRoot(doc)
   div_node <- getNodeSet(top, "//div[contains(@id,'htmlwidget_container')]/div[1]")
