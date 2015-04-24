@@ -33,7 +33,7 @@ moisture_map <- function(depth, out_file){
   col_types <- c( "red","orange", "yellow", "grey80","dodgerblue","darkblue")
   leg_vals <- pretty(station_loc$value)
   cols <- colorNumeric(col_types, domain = leg_vals)
-  pops <- paste(station_loc$name, sprintf('<br/>(%1.1f)',station_loc$value))
+  pops <- paste(station_loc$name, sprintf('<br/>(%1.1f)',station_loc$value), paste0('<br/>',station_loc$stationTriplet))
   
   
   
