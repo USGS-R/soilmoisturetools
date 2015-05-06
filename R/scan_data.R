@@ -71,9 +71,9 @@ scan_data = function(stationTriplets, depth, start=Sys.Date()-as.difftime(1, uni
 		station = xpathSApply(x, 'stationTriplet', xmlValue)
 		datetime = xpathSApply(x, 'values/dateTime', xmlValue)
 		flag = xpathSApply(x, 'values/flag', xmlValue)
-		value = xpathSApply(x, 'values/value', xmlValue)
+		value = xpathSApply(x, 'values/value', xmlValue, trim=TRUE)
 		
-		return(data.frame(station, datetime, flag, value))
+		return(data.frame(station, datetime, flag, value, stringsAsFactors = FALSE))
 	}
 	
 	returns = xpathApply(content(out), '/*/*/*/return[values]', fun=parse_vals)
