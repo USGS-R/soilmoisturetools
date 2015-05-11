@@ -7,9 +7,12 @@
 tx_data()
 }
 \description{
-Data supplied by Texas A&M partner service
+Texas data supplied by Texas A&M partner service
 }
 \details{
 
+}
+\examples{
+data = tx_data()
 }
 

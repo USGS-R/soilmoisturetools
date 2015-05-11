@@ -7,7 +7,7 @@
 #'@param names names/values of colors (text)
 #'@param title tile to display
 #'@keywords internal
-#'@importFrom XML newXMLNode addChildren
+#'@import XML
 #'@export
 add_svg_legend <- function(parent_node, width = 300, height = 100, cols, names, title){
   b_spc <- 5 # space between bars

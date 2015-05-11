@@ -8,7 +8,8 @@
 #'all_elements = scan_elements()
 #'print(all_elements$elementCds)
 #'
-#'@import XML httr
+#'@import XML
+#'@import httr
 #'
 #'@export
 scan_elements = function(){

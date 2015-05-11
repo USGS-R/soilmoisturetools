@@ -4,7 +4,7 @@
 #'@importFrom htmlwidgets saveWidget
 #'@importFrom dplyr select filter %>% left_join
 #'@import leaflet
-#'@importFrom XML getNodeSet xmlRoot htmlParse
+#'@import XML
 #'@examples
 #'\dontrun{
 #'moisture_map(-2,  out_file= 'soilmoisture_usgs.html')

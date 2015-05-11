@@ -1,10 +1,17 @@
 #'
 #'@title Get Texas soil moisture data
 #'
-#'@description Data supplied by Texas A&M partner service
+#'@description Texas data supplied by Texas A&M partner service
 #'
-#'@importFrom httr GET
+#'@import httr
 #'@importFrom reshape2 melt
+#'@importFrom stringr str_extract_all
+#'
+#'@examples
+#'
+#'data = tx_data()
+#'
+#'@import httr
 #'@importFrom stringr str_extract_all
 #'
 #'@export
@@ -35,5 +42,8 @@ tx_data = function(){
 	soil_long$depth_in = as.numeric(depths)/2.54
 	
 	soil_long$variable = NULL
+	#convert to percent
+	soil_long$value = soil_long$value*100
+	
 	return(soil_long)
 }
