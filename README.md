@@ -1,5 +1,9 @@
 # soilmoisturer
+[![Build Status](https://travis-ci.org/USGS-R/soilmoisturetools.svg?branch=master)](https://travis-ci.org/USGS-R/soilmoisturetools)
+
 Tools for everything soil moisture
+
+
 
 ##Disclaimer
 This software is in the public domain because it contains materials that originally came from the U.S. Geological Survey, an agency of the United States Department of Interior. For more information, see the [official USGS copyright policy](http://www.usgs.gov/visual-id/credit_usgs.html#copyright/ "official USGS copyright policy")
