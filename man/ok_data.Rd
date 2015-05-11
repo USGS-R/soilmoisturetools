@@ -7,7 +7,7 @@
 ok_data()
 }
 \description{
-Data supplied by Texas A&M partner service
+OK data supplied by Texas A&M partner service.
 }
 \details{
 
