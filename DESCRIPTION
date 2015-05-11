@@ -9,6 +9,8 @@ Imports:
 	httr (>= 0.5),
   leaflet,
   htmlwidgets,
-  dplyr
+  dplyr, 
+  reshape2,
+  stringr
 License: file LICENSE
 Repository: http://github.com/lawinslow/soilmoisturer
