@@ -166,16 +166,9 @@ var dataframe = (function() {
   };
 
   LayerStore.prototype.remove = function(id) {
-    if (typeof(id) === 'undefined' || id === null) {
-      return;
-    }
-
-    id = asArray(id);
-    for (var i = 0; i < id.length; i++) {
-      if (this._layers[id[i]]) {
-        this._group.removeLayer(this._layers[id[i]]);
-        delete this._layers[id[i]];
-      }
+    if (this._layers[id]) {
+      this._group.removeLayer(this._layers[id]);
+      delete this._layers[id];
     }
   };
 
@@ -200,62 +193,18 @@ var dataframe = (function() {
     }
     return keys;
   };
-  function ControlStore(map) {
-    this._controlsNoId = [];
-    this._controlsById = {};
-    this._map = map
-  }
-
-  ControlStore.prototype.add = function(control, id, html) {
-    if (typeof(id) !== 'undefined' && id !== null) {
-      if (this._controlsById[id]) {
-        this._map.removeControl(this._controlsById[id]);
-      }
-      this._controlsById[id] = control;
-    } else {
-      this._controlsNoId.push(control)
-    }
-    this._map.addControl(control);
-  };
-
-  ControlStore.prototype.remove = function(id) {
-    if (this._controlsById[id]) {
-      var control = this._controlsById[id];
-      this._map.removeControl(control);
-      delete this._controlsById[id];
-    }
-  };
-
-  ControlStore.prototype.clear = function() {
-    for (var i = 0; i < this._controlsNoId.length; i++) {
-      var control = this._controlsNoId[i];
-      Shiny.unbindAll(control._div);
-      this._map.removeControl(control);
-    };
-    this._controlsNoId = [];
-
-    for (var key in this._controlsById) {
-      var control = this._controlsById[key];
-      Shiny.unbindAll(control._div);
-      this._map.removeControl(control)
-    }
-    this._controlsById = {}
-  }
 
   function mouseHandler(mapId, layerId, eventName, extraInfo) {
     return function(e) {
       if (!HTMLWidgets.shinyMode) return;
-
-      var eventInfo = $.extend(
-        {
-          id: layerId,
-          '.nonce': Math.random()  // force reactivity
-        },
-        e.target.getLatLng ? e.target.getLatLng() : e.latlng,
-        extraInfo
-      );
-
-      Shiny.onInputChange(mapId + '_' + eventName, eventInfo);
+      var lat = e.target.getLatLng ? e.target.getLatLng().lat : null;
+      var lng = e.target.getLatLng ? e.target.getLatLng().lng : null;
+      Shiny.onInputChange(mapId + '_' + eventName, $.extend({
+        id: layerId,
+        lat: lat,
+        lng: lng,
+        '.nonce': Math.random()  // force reactivity
+      }, extraInfo));
     };
   }
 
@@ -273,8 +222,7 @@ var dataframe = (function() {
     Shiny.onInputChange(id + '_zoom', map.getZoom());
   }
 
-  window.LeafletWidget = {};
-  var methods = window.LeafletWidget.methods = {};
+  var methods = {};
 
   methods.setView = function(center, zoom, options) {
     this.setView(center, zoom, options);
@@ -286,7 +234,7 @@ var dataframe = (function() {
     ]);
   };
 
-  methods.addPopups = function(lat, lng, popup, layerId, options) {
+  methods.popup = function(lat, lng, popup, layerId, options) {
     var df = dataframe.create()
       .col('lat', lat)
       .col('lng', lng)
@@ -316,80 +264,11 @@ var dataframe = (function() {
     this.popups.clear();
   };
 
-  methods.addTiles = function(urlTemplate, layerId, options) {
-    this.tiles.add(L.tileLayer(urlTemplate, options), layerId);
+  methods.tileLayer = function(urlTemplate, options) {
+    this.tiles.add(L.tileLayer(urlTemplate, options));
   };
 
-  methods.removeTiles = function(layerId) {
-    this.tiles.remove(layerId);
-  };
-
-  methods.clearTiles = function() {
-    this.tiles.clear();
-  };
-
-  // Given:
-  //   {data: ["a", "b", "c"], index: [0, 1, 0, 2]}
-  // returns:
-  //   ["a", "b", "a", "c"]
-  function unpackStrings(iconset) {
-    if (!iconset) {
-      return iconset;
-    }
-    if (typeof(iconset.index) === 'undefined') {
-      return iconset;
-    }
-
-    iconset.data = asArray(iconset.data);
-    iconset.index = asArray(iconset.index);
-
-    return $.map(iconset.index, function(e, i) {
-      return iconset.data[e];
-    });
-  }
-
-  methods.addMarkers = function(lat, lng, icon, layerId, options, popup) {
-    if (icon) {
-      // Unpack icons
-      icon.iconUrl         = unpackStrings(icon.iconUrl);
-      icon.iconRetinaUrl   = unpackStrings(icon.iconRetinaUrl);
-      icon.shadowUrl       = unpackStrings(icon.shadowUrl);
-      icon.shadowRetinaUrl = unpackStrings(icon.shadowRetinaUrl);
-
-      // This cbinds the icon URLs and any other icon options; they're all
-      // present on the icon object.
-      var icondf = dataframe.create().cbind(icon);
-
-      // Constructs an icon from a specified row of the icon dataframe.
-      var getIcon = function(i) {
-        var opts = icondf.get(i);
-        if (!opts.iconUrl) {
-          return new L.Icon.Default();
-        }
-
-        // Composite options (like points or sizes) are passed from R with each
-        // individual component as its own option. We need to combine them now
-        // into their composite form.
-        if (opts.iconWidth) {
-          opts.iconSize = [opts.iconWidth, opts.iconHeight];
-        }
-        if (opts.shadowWidth) {
-          opts.shadowSize = [opts.shadowWidth, opts.shadowHeight];
-        }
-        if (opts.iconAnchorX) {
-          opts.iconAnchor = [opts.iconAnchorX, opts.iconAnchorY];
-        }
-        if (opts.shadowAnchorX) {
-          opts.shadowAnchor = [opts.shadowAnchorX, opts.shadowAnchorY];
-        }
-        if (opts.popupAnchorX) {
-          opts.popupAnchor = [opts.popupAnchorX, opts.popupAnchorY];
-        }
-
-        return new L.Icon(opts);
-      };
-    }
-
+  methods.marker = function(lat, lng, layerId, options, popup) {
     var df = dataframe.create()
       .col('lat', lat)
       .col('lng', lng)
@@ -397,13 +276,9 @@ var dataframe = (function() {
       .col('popup', popup)
       .cbind(options);
 
-    if (icon) icondf.effectiveLength = df.nrow();
-
     for (var i = 0; i < df.nrow(); i++) {
       (function() {
-        var options = df.get(i);
-        if (icon) options.icon = getIcon(i);
-        var marker = L.marker([df.get(i, 'lat'), df.get(i, 'lng')], options);
+        var marker = L.marker([df.get(i, 'lat'), df.get(i, 'lng')], df.get(i));
         var thisId = df.get(i, 'layerId');
         this.markers.add(marker, thisId);
         var popup = df.get(i, 'popup');
@@ -415,7 +290,7 @@ var dataframe = (function() {
     }
   };
 
-  methods.addCircles = function(lat, lng, radius, layerId, options, popup) {
+  methods.circle = function(lat, lng, radius, layerId, options, popup) {
     var df = dataframe.create()
       .col('lat', lat)
       .col('lng', lng)
@@ -438,7 +313,7 @@ var dataframe = (function() {
     }
   };
 
-  methods.addCircleMarkers = function(lat, lng, radius, layerId, options, popup) {
+  methods.circleMarker = function(lat, lng, radius, layerId, options, popup) {
     var df = dataframe.create()
       .col('lat', lat)
       .col('lng', lng)
@@ -465,7 +340,7 @@ var dataframe = (function() {
    * @param lat Array of arrays of latitude coordinates for polylines
    * @param lng Array of arrays of longitude coordinates for polylines
    */
-  methods.addPolylines = function(polygons, layerId, options, popup) {
+  methods.polyline = function(polygons, layerId, options, popup) {
     var df = dataframe.create()
       .col('shapes', polygons)
       .col('layerId', layerId)
@@ -504,7 +379,7 @@ var dataframe = (function() {
     this.shapes.clear();
   };
 
-  methods.addRectangles = function(lat1, lng1, lat2, lng2, layerId, options, popup) {
+  methods.rectangle = function(lat1, lng1, lat2, lng2, layerId, options, popup) {
     var df = dataframe.create()
       .col('lat1', lat1)
       .col('lng1', lng1)
@@ -536,7 +411,7 @@ var dataframe = (function() {
    * @param lat Array of arrays of latitude coordinates for polygons
    * @param lng Array of arrays of longitude coordinates for polygons
    */
-  methods.addPolygons = function(polygons, layerId, options, popup) {
+  methods.polygon = function(polygons, layerId, options, popup) {
     var df = dataframe.create()
       .col('shapes', polygons)
       .col('layerId', layerId)
@@ -561,7 +436,7 @@ var dataframe = (function() {
     }
   };
 
-  methods.addGeoJSON = function(data, layerId) {
+  methods.geoJSON = function(data, layerId) {
     var self = this;
     if (typeof(data) === "string") {
       data = JSON.parse(data);
@@ -592,121 +467,6 @@ var dataframe = (function() {
     this.geojson.add(gjlayer, layerId);
   };
 
-  methods.removeGeoJSON = function(layerId) {
-    this.geojson.remove(layerId);
-  };
-
-  methods.clearGeoJSON = function() {
-    this.geojson.clear();
-  };
-
-  methods.addControl = function(html, position, layerId, classes) {
-    function onAdd(map) {
-      var div = L.DomUtil.create('div', classes);
-      if (typeof layerId !== 'undefined' && layerId !== null) {
-        div.setAttribute('id', layerId)
-      }
-      this._div = div;
-
-      // It's possible for window.Shiny to be true but Shiny.initializeInputs to
-      // not be, when a static leaflet widget is included as part of the shiny
-      // UI directly (not through leafletOutput or uiOutput). In this case we
-      // don't do the normal Shiny stuff as that will all happen when Shiny
-      // itself loads and binds the entire doc.
-
-      if (window.Shiny && Shiny.initializeInputs) {
-        Shiny.renderHtml(html, this._div);
-        Shiny.initializeInputs(this._div);
-        Shiny.bindAll(this._div);
-      } else {
-        this._div.innerHTML = html;
-      }
-
-      return this._div;
-    }
-    function onRemove(map) {
-      if (window.Shiny && Shiny.unbindAll) {
-        Shiny.unbindAll(this._div);
-      }
-    }
-    var Control = L.Control.extend({
-      options: {position: position},
-      onAdd: onAdd,
-      onRemove: onRemove
-    })
-    this.controls.add(new Control, layerId, html);
-  };
-
-  methods.removeControl = function(layerId) {
-    this.controls.remove(layerId);
-  };
-
-  methods.clearControls = function() {
-    this.controls.clear();
-  };
-
-  methods.addLegend = function(options) {
-    var legend = L.control({position: options.position});
-    var gradSpan;
-
-    legend.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend'),
-          colors = options.colors,
-          labels = options.labels,
-          legendHTML = '';
-      if (options.type === 'numeric') {
-        gradSpan = $('<span/>').css({
-          'background': 'linear-gradient(' + colors + ')',
-          'opacity': options.opacity,
-          'height': '100px',
-          'width': '18px',
-          'display': 'block'
-        });
-        var leftDiv = $('<div/>').css('display', 'inline-block'),
-            rightDiv = $('<div/>').css('display', 'inline-block');
-        leftDiv.append(gradSpan);
-        var labelTable = '<table>';
-        for (var i = 0; i < labels.length; i++) {
-          labelTable += '<tr><td>-</td><td style="text-align:right">' +
-                        '<span style="display: block;">' + labels[i] +
-                        '</span></td></tr>';
-        }
-        labelTable += '</table>';
-        rightDiv.append(labelTable);
-        $(div).append(leftDiv).append(rightDiv);
-        if (options.na_color) {
-          $(div).append('<div><i style="background:' + options.na_color +
-                        '"></i> ' + options.na_label + '</div>');
-        }
-      } else {
-        if (options.na_color) {
-          colors.push(options.na_color);
-          labels.push(options.na_label);
-        }
-        for (var i = 0; i < colors.length; i++) {
-          legendHTML += '<i style="background:' + colors[i] + ';opacity:' +
-                        options.opacity + '"></i> ' + labels[i] + '<br/>';
-        }
-        div.innerHTML = legendHTML;
-      }
-      if (options.title)
-        $(div).prepend('<div style="margin-bottom:3px"><strong>' +
-                        options.title + '</strong></div>');
-      return div;
-    };
-
-    this.controls.add(legend, options.layerId);
-
-    // calculate the height of the gradient bar after the legend is rendered
-    if (options.type === 'numeric') {
-      var legendHeight = $(legend.getContainer()).find('table').height();
-      gradSpan.parent().height(legendHeight);
-      gradSpan.height(options.extra[1] * legendHeight).css({
-        'margin-top': options.extra[0] * legendHeight
-      });
-    }
-  };
-
   HTMLWidgets.widget({
     name: "leaflet",
     type: "output",
@@ -730,9 +490,6 @@ var dataframe = (function() {
 
       map.id = this.getId(el);
 
-      // Store the map on the element so we can find it later by ID
-      $(el).data("leaflet-map", map);
-
       // When the map is clicked, send the coordinates back to the app
       map.on('click', function(e) {
         Shiny.onInputChange(map.id + '_click', {
@@ -751,14 +508,12 @@ var dataframe = (function() {
       var options = $.extend({ zoomToLimits: "always" }, data.options);
 
       if (!map.markers) {
-        map.controls = new ControlStore(map);
         map.markers = new LayerStore(map);
         map.shapes = new LayerStore(map);
         map.popups = new LayerStore(map);
         map.geojson = new LayerStore(map);
         map.tiles = new LayerStore(map);
       } else {
-        map.controls.clear();
         map.markers.clear();
         map.shapes.clear();
         map.popups.clear();
@@ -809,8 +564,69 @@ var dataframe = (function() {
         var call = data.calls[i];
         if (methods[call.method])
           methods[call.method].apply(map, call.args);
-        else
-          console.log("Unknown method " + call.method);
+      }
+
+      // color legend
+      if (data.legend) {
+        var legend = L.control({position: data.legend.position});
+        var gradSpan;
+
+        legend.onAdd = function (map) {
+          var div = L.DomUtil.create('div', 'info legend'),
+              colors = data.legend.colors,
+              labels = data.legend.labels,
+              legendHTML = '';
+          if (data.legend.type === 'numeric') {
+            gradSpan = $('<span/>').css({
+              'background': 'linear-gradient(' + colors + ')',
+              'opacity': data.legend.opacity,
+              'height': '100px',
+              'width': '18px',
+              'display': 'block'
+            });
+            var leftDiv = $('<div/>').css('display', 'inline-block'),
+                rightDiv = $('<div/>').css('display', 'inline-block');
+            leftDiv.append(gradSpan);
+            var labelTable = '<table>';
+            for (var i = 0; i < labels.length; i++) {
+              labelTable += '<tr><td>-</td><td style="text-align:right">' +
+                            '<span style="display: block;">' + labels[i] +
+                            '</span></td></tr>';
+            }
+            labelTable += '</table>';
+            rightDiv.append(labelTable);
+            $(div).append(leftDiv).append(rightDiv);
+            if (data.legend.na_color) {
+              $(div).append('<div><i style="background:' + data.legend.na_color +
+                            '"></i> ' + data.legend.na_label + '</div>');
+            }
+          } else {
+            if (data.legend.na_color) {
+              colors.push(data.legend.na_color);
+              labels.push(data.legend.na_label);
+            }
+            for (var i = 0; i < colors.length; i++) {
+              legendHTML += '<i style="background:' + colors[i] + ';opacity:' +
+                            data.legend.opacity + '"></i> ' + labels[i] + '<br/>';
+            }
+            div.innerHTML = legendHTML;
+          }
+          if (data.legend.title)
+            $(div).prepend('<div style="margin-bottom:3px"><strong>' +
+                            data.legend.title + '</strong></div>');
+          return div;
+        };
+
+        // TODO: how to remove it?
+        legend.addTo(map);
+
+        // calculate the height of the gradient bar after the legend is rendered
+        if (data.legend.type === 'numeric') {
+          var legendHeight = $(legend.getContainer()).find('table').height();
+          gradSpan.height(data.legend.extra[1] * legendHeight).css({
+            'margin-top': data.legend.extra[0] * legendHeight
+          });
+        }
       }
 
       map.leafletr.hasRendered = true;
@@ -819,31 +635,24 @@ var dataframe = (function() {
 
       setTimeout(function() { updateBounds(map); }, 1);
     },
-    resize: function(el, width, height, map) {
-      map.invalidateSize();
+    resize: function(el, width, height, data) {
+
     }
   });
 
   if (!HTMLWidgets.shinyMode) return;
 
-  Shiny.addCustomMessageHandler('leaflet-calls', function(data) {
-    var id = data.id;
-    var el = document.getElementById(id);
-    var map = el ? $(el).data('leaflet-map') : null;
-    if (!map) {
-      console.log("Couldn't find map with id " + id);
+  // Shiny support via the Leaflet map controller
+  Shiny.addCustomMessageHandler('leaflet', function(data) {
+    var mapId = data.mapId;
+    var map = document.getElementById(mapId);
+    if (!map)
       return;
-    }
 
-    for (var i = 0; i < data.calls.length; i++) {
-      var call = data.calls[i];
-      if (call.dependencies) {
-        Shiny.renderDependencies(call.dependencies);
-      }
-      if (methods[call.method])
-        methods[call.method].apply(map, call.args);
-      else
-        console.log("Unknown method " + call.method);
+    if (methods[data.method]) {
+      methods[data.method].apply(map, data.args);
+    } else {
+      throw new Error('Unknown method ' + data.method);
     }
   });
 

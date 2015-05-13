@@ -16,7 +16,7 @@ moisture_map <- function(depth, out_file){
   ca_sites <- sites#[is_ca]
   #Just use the default start/end date
   now <- as.Date(Sys.time())
-  day <- 86400 #seconds
+  day <- 1 
   data = scan_data(ca_sites, depth = depth, start = now-day, end = now)
   soil_moisture <- select(data, station, value) %>% 
     filter(!duplicated(station))
@@ -45,14 +45,13 @@ moisture_map <- function(depth, out_file){
                      fillColor = ~cols(value), color = "grey60", 
                      fillOpacity = 0.8, radius = 6, opacity = 0.8, 
                      options = markerOptions(zIndexOffset = 9)) %>%
+    addLegend(
+      position = 'bottomright',
+      colors = cols(leg_vals),
+      labels = paste(leg_vals,'%', sep = ''), opacity = 0.8,
+      title = paste0('Soil moisture<br/>',now)) %>%
     setView(-109.36, 36.67, zoom = 4)
-  
+
   saveWidget(m, out_file, selfcontained = FALSE, libdir = NULL)
-  doc = htmlParse(out_file,isURL=FALSE, useInternalNodes = TRUE)
-  top = xmlRoot(doc)
-  div_node <- getNodeSet(top, "//div[contains(@id,'htmlwidget_container')]/div[1]")
-  div_node[[1]] <- add_svg_legend(div_node[[1]],
-                                  cols = cols(leg_vals), names = leg_vals, title = paste0('Soil moisture ',now,' (%)'))
-  saveXML(doc, file = out_file)
   return(out_file)
 }

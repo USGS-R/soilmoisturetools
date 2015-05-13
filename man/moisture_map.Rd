@@ -16,7 +16,7 @@ create a leaflet map for soilmoisture
 }
 \examples{
 \dontrun{
-moisture_map(-2,  out_file= 'inst/www/soilmoisture_usgs.html')
+moisture_map(-2,  out_file= 'soilmoisture_usgs.html')
 }
 }
 
