@@ -52,7 +52,7 @@ moisture_map <- function(depth, out_file){
   top = xmlRoot(doc)
   div_node <- getNodeSet(top, "//div[contains(@id,'htmlwidget_container')]/div[1]")
   div_node[[1]] <- add_svg_legend(div_node[[1]],
-                                  cols = cols(leg_vals), names = leg_vals, title = 'Soil moisture (%)')
+                                  cols = cols(leg_vals), names = leg_vals, title = paste0('Soil moisture ',now,' (%)'))
   saveXML(doc, file = out_file)
   return(out_file)
 }
