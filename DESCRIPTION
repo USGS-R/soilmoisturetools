@@ -13,4 +13,4 @@ Imports:
   reshape2,
   stringr
 License: file LICENSE
-Repository: http://github.com/lawinslow/soilmoisturer
+Repository: http://github.com/USGS-R/soilmoisturetools
