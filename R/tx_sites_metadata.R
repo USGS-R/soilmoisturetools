@@ -17,7 +17,7 @@
 tx_sites_metadata = function(station_ids){
   
   meta_path     = system.file('extdata/tx_mesonet_site_info.csv', package=packageName())
-  meta = read.csv(meta_path, header=TRUE)
+  meta = read.csv(meta_path, header=TRUE, as.is=TRUE)
   
   meta = meta[meta$StationName != '', ]
   

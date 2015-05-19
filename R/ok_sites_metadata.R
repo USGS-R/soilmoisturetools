@@ -19,7 +19,7 @@ ok_sites_metadata = function(station_ids){
 	
 	#File from here: http://www.mesonet.org/index.php/site/sites/station_names_map
 	meta_path     = system.file('extdata/ok_mesonet_site_info.csv', package=packageName())
-	ok_meta = read.csv(meta_path, header=TRUE)
+	ok_meta = read.csv(meta_path, header=TRUE, as.is=TRUE)
 	
 	ok_meta$station = paste(ok_meta$stnm, "OK", ok_meta$stid, sep=':')
 	
