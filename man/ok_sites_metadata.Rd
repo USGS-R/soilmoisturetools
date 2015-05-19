@@ -9,6 +9,10 @@ ok_sites_metadata(station_ids)
 \arguments{
 \item{station_ids}{Character vector of station ids.}
 }
+\value{
+A data.frame of metadata. All metadata methods return a data.frame with
+\code{station}, \code{latitude}, \code{longitude}
+}
 \description{
 OK site metadata for OK mesonet sites. Data pulled from here
 \url{http://www.mesonet.org/index.php/site/sites/station_names_map}
