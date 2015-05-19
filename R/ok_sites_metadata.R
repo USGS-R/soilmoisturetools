@@ -6,6 +6,9 @@
 #'OK site metadata for OK mesonet sites. Data pulled from here
 #'\url{http://www.mesonet.org/index.php/site/sites/station_names_map}
 #'
+#'@return A data.frame of metadata. All metadata methods return a data.frame with 
+#'\code{station}, \code{latitude}, \code{longitude}
+#'
 #'@examples
 #'
 #'ok = ok_data()
@@ -20,6 +23,14 @@ ok_sites_metadata = function(station_ids){
 	
 	ok_meta$station = paste(ok_meta$stnm, "OK", ok_meta$stid, sep=':')
 	
+  ok_meta$latitude = ok_meta$nlat
+  ok_meta$longitude = ok_meta$elon
+  ok_meta$elevation = ok_meta$elev
+  
+	ok_meta$nlat = NULL
+	ok_meta$elon = NULL
+	ok_meta$elev = NULL
+  
 	ok_meta = merge(data.frame(station=station_ids), ok_meta, all.x=TRUE)
 	
 	return(ok_meta)

@@ -11,6 +11,7 @@ Imports:
   htmlwidgets,
   dplyr, 
   reshape2,
-  stringr
+  stringr (>= 1.0.0),
+  jsonlite
 License: file LICENSE
 Repository: http://github.com/USGS-R/soilmoisturetools
