@@ -600,11 +600,11 @@ var dataframe = (function() {
     this.geojson.clear();
   };
 
-  methods.addControl = function(html, position, controlId, classes) {
+  methods.addControl = function(html, position, layerId, classes) {
     function onAdd(map) {
       var div = L.DomUtil.create('div', classes);
-      if (typeof controlId !== 'undefined' && controlId !== null) {
-        div.setAttribute('id', controlId)
+      if (typeof layerId !== 'undefined' && layerId !== null) {
+        div.setAttribute('id', layerId)
       }
       this._div = div;
 
@@ -634,15 +634,77 @@ var dataframe = (function() {
       onAdd: onAdd,
       onRemove: onRemove
     })
-    this.controls.add(new Control, controlId, html);
+    this.controls.add(new Control, layerId, html);
   };
 
-  methods.removeControl = function(controlId) {
-    this.controls.remove(controlId);
+  methods.removeControl = function(layerId) {
+    this.controls.remove(layerId);
   };
 
   methods.clearControls = function() {
     this.controls.clear();
+  };
+
+  methods.addLegend = function(options) {
+    var legend = L.control({position: options.position});
+    var gradSpan;
+
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend'),
+          colors = options.colors,
+          labels = options.labels,
+          legendHTML = '';
+      if (options.type === 'numeric') {
+        gradSpan = $('<span/>').css({
+          'background': 'linear-gradient(' + colors + ')',
+          'opacity': options.opacity,
+          'height': '100px',
+          'width': '18px',
+          'display': 'block'
+        });
+        var leftDiv = $('<div/>').css('display', 'inline-block'),
+            rightDiv = $('<div/>').css('display', 'inline-block');
+        leftDiv.append(gradSpan);
+        var labelTable = '<table>';
+        for (var i = 0; i < labels.length; i++) {
+          labelTable += '<tr><td>-</td><td style="text-align:right">' +
+                        '<span style="display: block;">' + labels[i] +
+                        '</span></td></tr>';
+        }
+        labelTable += '</table>';
+        rightDiv.append(labelTable);
+        $(div).append(leftDiv).append(rightDiv);
+        if (options.na_color) {
+          $(div).append('<div><i style="background:' + options.na_color +
+                        '"></i> ' + options.na_label + '</div>');
+        }
+      } else {
+        if (options.na_color) {
+          colors.push(options.na_color);
+          labels.push(options.na_label);
+        }
+        for (var i = 0; i < colors.length; i++) {
+          legendHTML += '<i style="background:' + colors[i] + ';opacity:' +
+                        options.opacity + '"></i> ' + labels[i] + '<br/>';
+        }
+        div.innerHTML = legendHTML;
+      }
+      if (options.title)
+        $(div).prepend('<div style="margin-bottom:3px"><strong>' +
+                        options.title + '</strong></div>');
+      return div;
+    };
+
+    this.controls.add(legend, options.layerId);
+
+    // calculate the height of the gradient bar after the legend is rendered
+    if (options.type === 'numeric') {
+      var legendHeight = $(legend.getContainer()).find('table').height();
+      gradSpan.parent().height(legendHeight);
+      gradSpan.height(options.extra[1] * legendHeight).css({
+        'margin-top': options.extra[0] * legendHeight
+      });
+    }
   };
 
   HTMLWidgets.widget({
@@ -757,8 +819,8 @@ var dataframe = (function() {
 
       setTimeout(function() { updateBounds(map); }, 1);
     },
-    resize: function(el, width, height, data) {
-
+    resize: function(el, width, height, map) {
+      map.invalidateSize();
     }
   });
 

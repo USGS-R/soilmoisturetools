@@ -12,6 +12,7 @@
 #'data = tx_data()
 #'
 #'@import httr
+#'@import jsonlite
 #'@importFrom stringr str_extract_all
 #'
 #'@export
