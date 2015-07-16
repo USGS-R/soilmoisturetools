@@ -1,0 +1,5 @@
+Network,Service URL,Site Metadata File,Historical Percentile Coefficients,Site ID Conversions
+SCAN,http://www.wcc.nrcs.usda.gov/awdbWebService/services,N/A (service available),Yes,No
+OK Mesonet,http://128.194.107.250/SoilAPI/api/soilok,Yes,Yes,Yes
+West TX Mesonet,http://128.194.107.250/SoilAPI/api/soiltx,Yes,No,?
+CRN ,http://128.194.107.250/SoilAPI/api/soilcrn,Yes,No,?
