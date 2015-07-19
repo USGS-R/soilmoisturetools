@@ -15,3 +15,11 @@ for(i in 1:length(files)){
 }
 
 
+id_conv = read.csv('inst/extdata/id_conv/Oklahoma Mesonet Station Reference.csv')
+
+out = merge(id_conv, out, by.x='StationID', by.y='V1')
+out$StationID = NULL #drop the old texas station ID
+
+out = out[order(out$STNUM, out$V8, out$V2), ]
+
+write.table(out, 'inst/extdata/historical_prct_coeff/Oklahoma_mesonet.csv', row.names=FALSE, col.names=FALSE, sep=',')
