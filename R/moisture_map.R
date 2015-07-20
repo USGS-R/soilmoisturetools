@@ -20,15 +20,19 @@ moisture_map <- function(data, metadata, out_file){
   soil_moisture$station <- as.character(soil_moisture$station)
   
   
-  station_loc <- select(metadata, name, latitude, longitude, station)
+  station_loc <- select(metadata, station, latitude, longitude, station)
   station_loc <- left_join(station_loc, soil_moisture, by = 'station')
   
   names(station_loc)[2] <- 'lat'
   names(station_loc)[3] <- 'lng'
+  
+  #this should have complete data, omit data missing lat/lon/station or value
+  station_loc = na.omit(station_loc)
+  
   col_types <- c( "red","orange", "yellow", "grey80","dodgerblue","darkblue")
   leg_vals <- seq(0,100, 10)
   cols <- colorNumeric(col_types, domain = leg_vals)
-  pops <- paste(station_loc$name, sprintf('<br/>(%1.1f)',station_loc$value), paste0('<br/>',station_loc$station))
+  pops <- paste(station_loc$station, sprintf('<br/>(%1.1f)',station_loc$value), paste0('<br/>',station_loc$station))
   
   
   m = leaflet(station_loc) %>% 
