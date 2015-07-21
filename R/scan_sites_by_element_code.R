@@ -7,8 +7,9 @@
 #'@return A list of site triplets as character strings
 #'
 #'@examples
+#'\dontrun{
 #'sites_vec = scan_sites_by_element_code('SMS')
-#'
+#'}
 #'@export
 scan_sites_by_element_code = function(elementCd){
 	

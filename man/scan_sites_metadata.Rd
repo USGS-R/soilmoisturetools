@@ -21,7 +21,9 @@ This is somewhat slow. Queries over 1000 sites are split into multiple requests.
 I recommend querying only the specific sites you need.
 }
 \examples{
+\dontrun{
 scan_sites_metadata("9897:NM:UCOOP")
+}
 }
 \author{
 Luke Winslow

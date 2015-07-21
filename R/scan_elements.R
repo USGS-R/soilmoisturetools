@@ -5,8 +5,10 @@
 #'@return a \code{data.frame} with columns elementCd, name, and storedUnitCd
 #'
 #'@examples
+#'\dontrun{
 #'all_elements = scan_elements()
 #'print(all_elements$elementCds)
+#'}
 #'
 #'@import XML
 #'@import httr
