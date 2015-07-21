@@ -16,6 +16,8 @@ A list of site triplets as character strings
 Grab all scan sites with certain parameter
 }
 \examples{
+\dontrun{
 sites_vec = scan_sites_by_element_code('SMS')
+}
 }
 

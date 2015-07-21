@@ -11,9 +11,9 @@
 #'@author Luke Winslow
 #'
 #'@examples 
-#'
+#'\dontrun{
 #'scan_sites_metadata("9897:NM:UCOOP")
-#'
+#'}
 #'@export
 scan_sites_metadata = function(stationTriplets){
 	

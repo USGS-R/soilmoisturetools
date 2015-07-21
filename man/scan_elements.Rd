@@ -13,7 +13,9 @@ a \code{data.frame} with columns elementCd, name, and storedUnitCd
 Get all scan database element codes
 }
 \examples{
+\dontrun{
 all_elements = scan_elements()
 print(all_elements$elementCds)
+}
 }
 
