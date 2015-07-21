@@ -8,18 +8,20 @@
 #'@export
 automated_web_update = function(outpath='.'){
 	
-	ok     = to_hist_percentile(ok_data())
-	ok_met = ok_sites_metadata(ok$station)
+	#as per the suggestion here, don't try to direct knitr output
+	# https://github.com/yihui/knitr/issues/913
+	#origin = getwd()
+	#setwd(outpath)
 	
-	tx     = to_hist_percentile(tx_data())
-	tx_met = tx_sites_metadata(tx$station)
+	kfile = system.file('rmd_web/index.Rmd', package=packageName())
 	
-	ok_met = ok_met[, intersect(names(ok_met), names(tx_met))]
-	tx_met = tx_met[, intersect(names(ok_met), names(tx_met))]
+	rmarkdown::render(input = kfile, output_dir=outpath)
 	
-	moisture_map(rbind(tx, ok), 
-							 rbind(tx_met, ok_met),
-							 out_file= file.path(outpath, 'index.html'))
+	#Now move the header and footer over
+	hdir = system.file('rmd_web/header', package=packageName())
+	fdir = system.file('rmd_web/footer', package=packageName())
+	file.copy(hdir, outpath, recursive = TRUE)
+	file.copy(fdir, outpath, recursive = TRUE)
 	
-	
+	#setwd(origin)
 }

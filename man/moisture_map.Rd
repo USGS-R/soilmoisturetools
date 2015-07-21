@@ -4,7 +4,7 @@
 \alias{moisture_map}
 \title{create a leaflet map for soilmoisture}
 \usage{
-moisture_map(data, metadata, out_file)
+moisture_map(data, metadata, out_file = NULL)
 }
 \arguments{
 \item{data}{data.frame from data service function (e.g., \link{tx_data})}
@@ -18,7 +18,9 @@ create a leaflet map for soilmoisture
 }
 \examples{
 \dontrun{
-moisture_map(to_hist_percentile(ok_data()), ok_sites_metadata(ok_data()$station), out_file= 'soilmoisture_usgs.html')
+ok = to_hist_percentile(ok_data())
+ok_meta = ok_sites_metadata(ok$station)
+moisture_map(ok, ok_meta, out_file= '~/soilmoisture_usgs.html')
 }
 }
 
