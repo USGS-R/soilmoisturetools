@@ -3,7 +3,7 @@
 #'
 #'@param outpath Path to store generated output
 #'
-#'
+#'@importFrom rmarkdown render
 #'
 #'@export
 automated_web_update = function(outpath='.'){
