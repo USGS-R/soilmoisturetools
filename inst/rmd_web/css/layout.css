@@ -1,0 +1,65 @@
+
+#main { width:738px;}
+
+#header {height:100px;}
+
+#footer { height:61px;}
+
+.column1, .column2, .column3, .indent_column, .col1, .col2, .col3, .ind_col {float:left;}
+
+/* index */
+
+#index .columns1 .column1 {width:241px;}
+#index .columns1 .column2 {width:242px;}
+#index .columns1 .column3 {width:241px;}
+#index .columns1 .indent_column {width:7px;}
+
+#index .ver_line { background:url(../images/ver_line.gif) repeat-y 493px 0; width:100%;}
+#index .columns2 .column1 {width:493px;}
+#index .columns2 .column2 {width:245px;}
+
+/* index-1 */
+
+#index_1 #middle .column1 {width:496px;}
+#index_1 #middle .column2 {width:241px;}
+
+#index_1 .col1 {width:206px;}
+#index_1 .col2 {width:207px;}
+#index_1 .ind_col {width:42px;}
+
+
+/* index-2 */
+
+#index_2 .columns1 .column1 {width:490px;}
+#index_2 .columns1 .column2 {width:241px;}
+#index_2 .columns1 .indent_column {width:7px;}
+
+#index_2 .ver_line { background:url(../images/ver_line.gif) repeat-y 493px 0; width:100%;}
+#index_2 .columns2 .column1 {width:493px;}
+#index_2 .columns2 .column2 {width:245px; background:url(../images/ver_line.gif) left repeat-y;}
+
+/* index-3 */
+
+#index_3 #middle .column1 {width:496px;}
+#index_3 #middle .column2 {width:241px;}
+
+#index_3 .col1 {width:206px;}
+#index_3 .col2 {width:207px;}
+#index_3 .ind_col {width:42px;}
+
+/* index-4 */
+
+#index_4 #middle .column1 {width:496px;}
+#index_4 #middle .column2 {width:241px;}
+
+#index_4 .col1 {width:206px;}
+#index_4 .col2 {width:207px;}
+#index_4 .ind_col {width:42px;}
+
+/* index-5 */
+
+#index_5 .columns1 .column1 {width:241px;}
+#index_5 .columns1 .column2 {width:490px;}
+#index_5 .columns1 .indent_column {width:7px;}
+
+strong2 {font-size:12px; font-weight:bold; color:#2988C9;}

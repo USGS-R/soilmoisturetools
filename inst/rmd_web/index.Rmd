@@ -1,0 +1,72 @@
+---
+title: "Soil Moisture Network"
+output:
+  html_document:
+    includes:
+      in_header: "header/usgs_in_header.html"
+      before_body: "header/usgs_before_body.html"
+      after_body: "footer/usgs_after_body.html"
+    self_contained: no
+      
+    
+---
+
+Last updated `r Sys.time()`
+
+
+```{r, include=FALSE}
+library(soilmoisturetools)
+#load a bunch of data
+ok     = to_hist_percentile(ok_data())
+ok_met = ok_sites_metadata(ok$station)
+
+tx     = to_hist_percentile(tx_data())
+tx_met = tx_sites_metadata(tx$station)
+
+ok_met = ok_met[, intersect(names(ok_met), names(tx_met))]
+tx_met = tx_met[, intersect(names(ok_met), names(tx_met))]
+
+data = rbind(tx, ok)
+metadata = rbind(tx_met, ok_met)
+
+```
+
+
+## 0-10cm
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center'}
+
+depth_i = data$depth_in > 0 & data$depth_in < 10/2.54
+
+moisture_map(data[depth_i, ], 
+						 metadata[depth_i, ],
+						 out_file=NULL)
+
+
+```
+
+## 10-30cm
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center'}
+
+depth_i = data$depth_in > 10/2.54 & data$depth_in < 30/2.54
+
+moisture_map(data[depth_i, ], 
+						 metadata[depth_i, ],
+						 out_file=NULL)
+
+
+```
+
+## 30-100 cm
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center'}
+
+depth_i = data$depth_in > 30/2.54 & data$depth_in < 100/2.54
+
+moisture_map(data[depth_i, ], 
+						 metadata[depth_i, ],
+						 out_file=NULL)
+
+
+```

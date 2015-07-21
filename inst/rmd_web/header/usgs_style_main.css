@@ -1,0 +1,849 @@
+/*
+	This css file creates a USGS theme, based on the layout.css, which much
+	be imported before this sheet.
+	
+	Colors are mostly taken from this color scheme:
+	http://wellstyled.com/tools/colorscheme2/index-en.html?triad;37;0;233;0.59375;0.5019607843137255;0.59375;0.3513725490196078;0.1484375;1;0.296875;1;0.59375;0.3513725490196078;0.1484375;1;0.296875;1;0.59375;0.5019607843137255;0.59375;0.3513725490196078;0.1484375;1;0.296875;1;0.59375;0.5019607843137255;0.59375;0.5019607843137255;0.59375;0.3513725490196078;0.1484375;1;0.296875;1;0
+	...and validated for proper contrast via:
+	http://juicystudio.com/services/colourcontrast.php
+	
+	All relative font-sizes are now in percentages, since IE seems to have issues
+	recalc'ing ems sizes when the user picks a view size manually:
+	http://www.communitymx.com/content/article.cfm?page=2&cid=A8E2DC392C467EEA
+	
+	Section name within this file starts with '=' to make searching easier.
+	For instance for find the formatting for links, search for '=link'.
+	
+	Note:  htmldb has this rule on the first line of its themes:
+	*{font-size:12px;}
+	eg: http://infotrek.er.usgs.gov/i/themes/theme_12/theme_V2.css
+	For now, we have just taken it out of the themes we are using.
+	
+*/ 
+
+
+/* =header area
+	The layout and format of the header is defined by USGS spec, so do not
+	modify unless you know what you are doing.
+	One exception:  You may change the background image of the header by modifying
+	the background-image property of the '#header #banner-area' entry.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+#header { background-color: #fff; padding: 0; }
+
+#header #banner-area {
+  position: relative; overflow:	hidden; width: 100%; height: 72px;
+	margin: 1px 0; padding: 0;
+	color: #fff; background-color: #141414;
+	background-image: url(http://infotrek.er.usgs.gov/docs/nawqa_www/nawqa_public_template/assets/drought-flood_banner.jpg); /* Modify for alternate banner images */
+	background-position: 178px 0px;
+	background-repeat: no-repeat;
+}
+
+#banner-area h1 { /* USGS Title - not displayed b/c its replaced w/ the logo */
+	position: absolute; top: -400px;
+	padding: 0; margin: 0;
+}
+
+/* Logo appears in the banner-area */
+#usgs-header-logo { float: left; border: none; padding: 0; margin: 0; }
+#usgs-header-logo a, #usgs-header-logo img { border: none; padding: 0; margin: 0; }
+
+/* Standard Customer Service Area
+	Almost directly copied from USGS std's site. Sits in the upper rt corner of the page
+*/
+#ccsa-area {
+	float: right;
+	height: 72px;
+	color:	 #fff; 
+  background-color: #000;
+  
+}
+
+#ccsa-area a {
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  padding-right: 1em;
+  line-height: 1.0;
+	margin-left: 4px; 
+  /*padding: 0;*/
+	color:	#fff; 
+  background-color: transparent;
+  
+}
+#ccsa-area a:visited, #ccsa-area a:active { margin-left: 4px; color: #fff; }
+#ccsa-area a:hover { text-decoration: underline;}
+
+/* site-title is the title for the entire site (more then just a single page) */
+#site-title {
+	display: block;
+	margin: 1px 0; padding: 5px 0 5px 3px;
+	color:	#fff; background-color: #345280;
+	font-size: 120%; font-weight: bold;
+}
+#site-title a, #site-title a:visited, #site-title a:active, #site-title a:link
+{ color:	inherit; background-color: transparent; font-weight: inherit; font-size: inherit; }
+#site-title a:hover { color: #ccf; }
+
+/* For usgs-internal pages, this is used for the text: 'For Internal USGS Access Only' in the header */
+#internal-only {
+	font: 80% Verdana Arial Helvetica sans-serif;
+	letter-spacing: 1px;
+}
+
+/* site-top-links is just below the banner and has links for the site.  A type of hnav. */
+#site-top-links { margin: 7px 0; }
+#site-top-links a:visited { color: #fff; /* Don't mark pages w/in the site as visited */ }
+
+/* =body =content
+	The bulk of the content is assumed be be contained in area-1.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.area-1 .area-content { padding: 0 .4em 0 .8em; }
+
+/*
+	Note:	When using a sidebar, there is an IE bug that can potentially
+	hide part of the contents when the mouse hovers over a link.
+	The only fix is to modify the area-content as shown below:
+	
+	<div class="area-content">
+		... buch of Stuff ...
+		<div class="sidebar"> ... </div>
+		
+	  <div class="clear"></div>  ADD THIS LINE AS THE LAST THING IN THE area-content
+	</div>
+	
+	Bug Ref: http://www.positioniseverything.net/explorer/guillotine.html
+*/
+.area-1 .area-content .sidebar {
+	float: right; clear: right; width: 30%; padding: 0; margin: .3em 0 .5em .5em;
+	border: solid 3px #fff; z-index: 2;
+	background-color: #FFE8B3;
+}
+
+/* Place distinct headings flush to top */
+.sidebar .distinct { margin-top: 0; }
+
+.notes { background-color: #eee; }
+.area-1 .notes {
+	position: relative; display: block; margin-left: -.6em;
+	width: 100%; padding: .6em 0 .6em .6em;
+}
+
+/* =footer
+	The layout and format of the footer is defined by USGS spec.  Do not modify.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#footer {
+	position: relative; width: 100%; padding: 0; margin-top: 0px; float: left;
+	background-color: #fff;
+}
+
+#footer .content { position: relative; width: auto; margin:	.3em 0 0 0; }
+
+/* for internal pages, the footer has a grey border instead of accessabality links */
+.internal #footer {
+	border-top: solid #666 24px;
+}
+#footer #page-info {  }
+#page-info p { padding: 0; margin: 0; }
+
+/* This is the contact info for the DOI and USGS in the footer */
+#footer-doi-links .vcard .adr, #footer-doi-links .vcard .tel { display: none; }
+#footer-doi-links .vcard { display: inline; border: none; margin: inherit; padding: inherit; }
+
+/* These are the 'First Gov' and 'Take Pride in America' buttons (bottom right) */
+#footer #gov-buttons { position: absolute; right: 0; top: 0; text-align: right; }
+#gov-buttons a { margin: 0; padding: 0; }
+#gov-buttons a img { vertical-align: top; margin-left: 2px; border-width: 0px; }
+
+/*
+	This is the horizontal navigation area at the top of the footer.
+	See the horizontal navigation styles for how the hnav class is defined.
+	DO NOT MODIFY THIS OR ANY OTHER FOOTER SECTION.
+*/
+#usgs-policy-links .hnav {
+	margin: 0; padding: 0;
+	background-color: #666;
+}
+#usgs-policy-links .hnav li {
+	margin: 0 2em 0 0; padding: 0;
+	background-image:	none; /* Turn of the bkg image (a dot) that is used by default */
+}
+#usgs-policy-links .hnav a, #usgs-policy-links .hnav a:visited { font-weight: normal; color: #fff; }
+#usgs-policy-links .hnav li a:hover {
+	color:	#fff; background-color:	transparent;
+	text-decoration: underline;
+}
+
+/* =theme
+	Everything below this point is related to the page's "theme" and can be
+	over-ridden in your main stylesheet.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#page-area-container .area-2, #page-area-container .area-3 {
+	color: #000; background-color: #ffc;
+}
+
+/* =headings =specific
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#page-name {
+	margin: 0; text-align: left;
+	color: #000; background-color: transparent;
+  font-weight: bold; font-size:  160%;
+  
+}
+/*
+	Would like  to provide this as default, but IE seems to be unable to override
+	the first-letter psudo class, so no one can turn it *off*.  Yuck.
+#page-name:first-letter {
+  font-size: 50px; font-family: "Times New Roman", Times, Century, Garmond, serif;
+}
+*/
+#page-caption {
+  font-weight: normal;
+  font-size:  110%;
+  margin: .2em 0;
+}
+
+/* =headings =generic
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+h1.distinct, h2.distinct, h3.distinct, h4.distinct, h5.distinct, h6.distinct {
+	width: auto; padding: .2em;
+  color: #fff; background-color: #345280;
+}
+h1.distinct { font-size: 120%; }
+h2.distinct { font-size: 110%; }
+h3.distinct, h4.distinct, h5.distinct, h6.distinct { font-size: 100%; }
+
+/* The header area appears at the top of each area */
+.area-header {
+	margin: 0; padding: 0;
+	clear: left;	/* Allow items to float up beside on the right */
+}
+.area-header h1, .area-header h2, .area-header h3,
+.area-header h4, .area-header h5 {
+	padding: .25em 0; margin: 0;
+	color: #fff; background-color: #5A3524;
+	text-align: center;
+}
+
+/* =links =anchors
+	Generic formatting for anchor tags
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+a, a:link {
+  color: #258; /* 75% saturation */
+	text-decoration: none; font-weight: bold;
+}
+a:active { color: #EFEFEF; }
+a:visited {	color: #526066; /* 20% saturation */	}
+a:hover	{ color: #039;	background: #eee;	}
+
+/* =links =anchors =special
+	Special anchor tag formatting
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* A set of controls placed directly in the content */
+.content-control {
+  display: block; position: relative;
+  margin: .3em 0; padding: 0;
+}
+
+/*
+	A link that *does* something (rather then just linking to a page)
+	This type of link never indicates that it has been visited (it doesn't grey out).
+*/
+.content-control a, a.content-control { color: #258; /* 75% saturation */ }
+.content-control a:active, a.content-control:active		{ color: #EFEFEF; }
+.content-control a:visited, a.content-control:visited	{ color: #258; }
+.content-control a:hover, a.content-control:hover		{ color: #039; background: #eee; }
+
+
+/* A set of navigation lines placed directly in the content */
+.content-nav {
+  display: block; position: relative;
+  margin: .3em 0; padding: 0;
+}
+
+/* A navigation link placed directly in the content */
+.content-nav a, a.content-link	{ color: #258; /* 75% saturation */ }
+.content-nav a:active, a.content-link:active		{ color: #EFEFEF; }
+.content-nav a:visited, a.content-link:visited	{	color: #526066; /* 20% saturation */	}
+.content-nav a:hover,	a.content-link:hover	{ color: #039; background: #eee; }
+
+
+
+/* =horizontal =navigation =hnav
+	The hnav classes format a list of anchor tags horizontally across the page.
+	Usage example:
+	<ul class="hnav" title="Description of this group of links">
+		<li class="ie-first-child"><a	href="aPage.html" title="Link title">Page 1</a></li>
+		<li><a href="aSecondPage.html" title="Link Title">Some Other Page in Site</a></li>
+	</ul>
+	
+	Note that due to a weakness in Internet Explorer, the first link must include
+	the 'ie-first-child' class entry (see example above).
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+ul.hnav, .hnav ul {
+  display: block; list-style-type: none; clear: both;
+	margin: 1px 0 1px 0; padding: 0 0 0 .3em; 	/* pad the left of the list. */
+	background-color: #555;
+	line-height: 1.0;
+}
+
+/* Holly hack to fix a render bug in IE6/Win - Hide from IE5 Mac \*/
+* html .hnav {
+	height: 0.01%;
+}
+/* End IE5 Mac Hiding */
+
+
+/* Note: Safari and FireFox do not seem to propogate the li's height to the parent*/
+.hnav li {
+	display: inline;
+  margin: 0; padding: 0 0 0 14px; /* Padding must fit the 12px dot + space b/t dot and text.  */
+  
+	background-position: left center;
+	background-repeat:	no-repeat; 
+	list-style-type: none; list-style-image: none;
+}
+
+/* Remove bkg image from the 1st item.  Since IE is 'special', the 'ie-first-child' class is required for IE. */
+.hnav li:first-child, .hnav ul li.ie-first-child { padding: 0; background-image:	none; }
+
+/* Link formatting within the hnav */
+.hnav li a {
+	display: inline;
+	white-space: nowrap; padding: .1em .2em;
+	color: #fff; font-size: 110%; line-height: 1.5;
+}
+
+.hnav li a, .hnav ul li a:link, .hnav ul li a:visited, .hnav ul li a:active {
+	color: #fff;
+}
+.hnav li a:hover { color:	#ddf; background-color:	#2E467C; }
+
+/* 
+	Holly hack for IE5/Win inline padding. this hack fixes different  rendering
+	bugs in 5.0 and 5.5. Width is used instead of height b/c if the document is
+	too long, these elements become very tall.  Too wide an element is better, 
+	visually, than too tall.  Hide from IE5 Mac.
+*/
+/* Begin IE5 Mac Hiding \*/
+* html .hnav li a { width: 1%; }
+/* End IE5 Mac hiding */
+
+
+
+/* =vertical =navigation
+	Used to format lists of links as vertical navigation.
+	Usage example:
+	<ul class="vnav">
+		<li>
+			<h3>Nav Heading 1</h3>
+			<ul>
+				<li><a href="#" title="some title">Link 1<span>Optional Full Description</span></a></li>
+				<li><a href="#" title="some title">Link 2<span>Full Description</span></a></li>
+			</ul>
+		</li>
+		<li>
+			<h3>Nav Heading 2</h3>
+			<ul>
+				<li><a href="#" title="some title">Link 3<span>Full Description</span></a></li>
+				<li><a href="#" title="some title">Link 4<span>Full Description</span></a></li>
+			</ul>
+		</li>
+	</ul>
+	
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.vnav, .vnav ul, ul.vnav, .vnav li {
+	display: block; position: relative; list-style-type: none; list-style-image: none;
+	list-style-position: outside;  /* IE reserves room for the markers if set to 'inside' */
+	margin: 0; padding: 0; text-indent: 0;
+	width: auto;
+	z-index: 5;
+	line-height: 1.0;
+	position: relative;
+}
+
+.vnav ul, ul.vnav { padding-bottom: .3em; }
+html .vnav { margin-bottom: 1em; }
+
+.vnav li { margin: 0 0 .3em 0; }
+.vnav li li { margin: .1em 0 .35em 0; }
+.vnav ul ul, ul.vnav ul { margin-left: .5em; }
+.vnav li a {
+	display: block; width: auto; margin: 0;  padding: .15em .1em;
+	z-index: 5;
+	color: #fff; font-size: 105%; font-weight: bold;
+}
+.vnav li a:visited { color: #eee }
+.vnav li a:hover { color:	#ddf; background-color:	#2E467C; }
+
+.vnav h2, .vnav li h3, .vnav li h4, .vnav li h5, .vnav li h6 {
+	margin:	0; padding: .3em .2em;
+	color: #000; background-color: #FFE8B3;
+	letter-spacing: -.05em; /* Tighten the letters in headings slightly */
+}
+
+/* Flyout comment stuff */
+.vnav li a span { display: none; }
+.vnav li a:hover span {
+	display: block; position: absolute; left: 100%; top: 0; margin: 0 1px;
+	border: solid #2E467C 2px; padding: .8em;
+	width: 10em; height: 5em;
+	color: #000; background-color: #8295b2;
+	text-decoration: none; text-align: center; font-size: 95%; font-weight: normal;
+	overflow: auto; z-index: 100;
+}
+
+/* Assuming area-3 is on the right, this places the fly-out on the left */
+.area-3 .vnav li a:hover span {	left: -12.2em; }
+
+
+/* Begin hiding from IE5 Mac \*/
+* html .vnav ul li a { height: 0.01%; padding: .15em 0 .15em 1%; }
+/* End  IE5 Mac hiding */
+
+
+
+
+
+/* =form
+	Usage example (may be slightly out of date) :
+
+<form>
+  <div class="hidden-fields">
+    <input type="hidden" name="xxx" value="yyy" />
+  </duv>
+  <div class="distinct-content form-groups">
+    <h2>Optional title for entire query area w/ h2 - h5</h2>
+    <div class="form-group">
+      <hx>Some Main label</hx>
+      <div class="content | distinct-content">
+        <div class="criteria">
+          <label><span class="query-label">Analyte Code:</span></label>
+          <input type="text" class="query-field" ...>
+        </div>
+        <div class="criteria-note"><p>- OR -</p></div> <!-- not implelented -->
+        <div class="criteria">
+          <label><span class="query-label">Analyte Name:</span></label>
+          <input type="text" class="query-field" ...>
+          <span class="note">...</span>
+        </div>
+      </div> <!-- Close Content -->
+    </div>  <!-- close form group -->
+    <div class="form-group simple">
+      <!-- *simple* formatting for shorter lists  -->
+    </div>
+    <div class="form-group">
+      <div class="criteria"><input class="submit" type="submit" value="Search" ></div>
+    </div>
+  </div><!-- close form-groups -->
+</form>
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+
+/*
+  Class for a div block containing hidden form fields.
+  NOTE: input tags (including <input type="hidden"> tags *MUST* not be mixed
+  with other block level (ie div, fieldset) tags.  Instead, wrap them in a
+  div tag of this class.
+*/
+form div.hidden-inputs { border: none; padding: 0; width: 0; height: 0; }
+form { /* No specific formatting */ }
+
+/* Title for the form area */
+/* Have to turn this off b/c w/ htmldb *all* tags are nested in a form!! */
+/*
+form h2, form h3, form h4, form h5 {
+  margin: .1em 0; clear: both;
+	font-weight: bold;
+}
+*/
+
+
+/* optional - sets an area apart by adding a bottom border */
+form .distinct-content {
+  border-top: solid 2px #E7DEB5;
+}
+
+form .criteria {
+  float:  left;
+  width:  100%;
+  margin: .2em 0;
+  padding: 0;
+}
+
+/*
+pier-set - treat as a group equiv to piers of group
+textual-criteria - treat child criteria and notes as inline
+criteria-set - a Set - is this needed now that we can't display legend?
+*/
+
+
+
+.criteria label, .set-label {
+  display: block; float: left; width:  27%;
+  margin: 0px; padding:  0px;
+  text-align: left; font-size:  100%; font-weight: bold;
+}
+
+.set-content,
+.criteria select,
+.criteria input,
+.criteria textarea {
+	width:  auto;
+  margin-left:  .5em; padding:  0px;
+  font-size:  100%; font-weight:  normal;
+}
+.set-content { margin-left: 27%; padding-left: .5em; /*apply spacing here */ }
+
+/* remove spacing here */
+.set-content .criteria select,
+.set-content .criteria input,
+.set-content .criteria textarea {
+  margin:  0;
+}
+/* Submission button for the form */
+.criteria input.submit,
+.criteria button.submit {
+	width:  auto; padding:  .1em .4em;
+  font-size:  100%; font-weight:  bold; text-align:   center;
+}
+
+/* Some other button (not submit) for the form */
+input.command-button, button.command-button {
+	width: auto; padding:  .1em .4em;
+  font-size: 100%; font-weight:bold; text-align: center;
+}
+form .note {
+  display: block; clear: both;
+	margin: 0; padding: .2em;
+  font-style: italic; font-weight: bold;
+}
+.criteria .note {
+  display:  block; clear: both;
+  margin: 0; padding: .2em;
+  font-size: 90%; font-style: italic;
+}
+
+/* Modification for 'textual groups of criteria' */
+p.criteria { text-indent: 0; }
+.textual-criteria input,
+.textual-criteria select,
+.textual-criteria textarea,
+.textual-criteria .note,
+.textual-criteria label,
+p.criteria input,
+p.criteria select,
+p.criteria textarea,
+p.criteria label,
+p.note {
+  display: inline; float: none; clear: none; width: auto;
+  margin:  0; padding:  .1em;
+}
+
+.textual-criteria .criteria {
+	display: inline; float: none; width: auto;
+  margin: auto; padding: .1em; border: none;
+}
+/* Modification for 'simple' forms */
+.simple .criteria select, .simple .criteria input {
+	width:  100%; margin-left:  0; padding:  0px;
+}
+.simple .criteria label {
+  width:  100%;
+  font-size:  120%; font-weight: bold;
+}
+
+
+/* =table =data
+	Generic data table formatting.
+	ONLY USE TABLES TO PRESENT DATA - NOT FOR LAYOUT!
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+table.data { border-collapse: collapse; }
+table.data td, table.data th {
+  border: solid gray 1px;
+  text-align: center;
+  empty-cells: show;
+}
+table.data th { padding: .2em; }
+table.data thead th, table.data thead td,
+table.data tfoot th, table.data tfoot td{
+  background-color: #8295B2;
+  font-size: 120%; font-weight: bold;
+}
+table.data tbody th { text-align: left; }
+
+/* =misc =utility
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.clear { clear: both; }
+/* For items only visible w/o css */
+.hide {
+	display: none; position: absolute; clear: none;
+  width: 0; height: 0;
+  overflow: hidden; border: none;
+}
+
+/* For screen reader items 
+(doesn't seem to work for legend tags) */
+.access-help, .access-help * {
+	position: absolute !important; clear: none;
+  width: 0 !important; height: 0 !important; line-height: .1 !important; padding: 0 !important;
+  overflow: hidden !important; border: none !important;
+}
+
+
+/* =structure =columns
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.columns-2, .columns-3, .columns-4 {
+  width: 99.5%; z-index: 2; position: relative; float: left; clear: both;
+	margin: .3em 0; 
+  border-left: none;
+	background-color: transparent;
+	overflow: hidden;
+}
+
+/* Prevent the 1px border from causing the 4th column wrapping */
+.columns-4 { min-width: 100px; }
+
+.column {
+	margin: 0; background-color: transparent; background-image: none; float: left;
+	/*border-left: dashed 1px #2E467C;*/
+	padding-bottom: 100em; margin-bottom: -100em;
+}
+
+/*
+Below is a fix for IE to fix the double margin bug, as well as the holly-hack
+to force the columns to layout properly.  This looks commented out, but IE sees it.
+*/
+/*\*/
+* html .column { display: inline; height: 1%; }
+/* Ed Mac IE hidding*/
+
+.column .distinct { margin: 0 1% .3em 1%; }
+.column:after, .columns-2:after, .columns-3:after, .columns-4:after {
+	content: '[Ignore]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+
+.column p, .column ul { margin-left: .2em; margin-right: .2em; }
+.columns-2 .column { width: 49.5%; }
+.columns-3 .column { width: 33%; }
+.columns-4 .column { width: 24.66%; }
+
+/* Nested Columns */
+.column .column, .column .columns-2, .column .columns-3, .column .columns-4 { border: none; }
+.column .column { background-color: #ccf; margin-left: 1%; margin-right: 1%; }
+.column .column:first-child { margin-left: 1%; /* Nice to leave a left margin */ }
+.column .column:last-child { margin-right: 0; }
+
+.column .columns-2 .column { width: 48.5%; }
+.column .columns-3 .column { width: 31.3%; }
+.column .columns-4 .column { width: 23.2%; margin-right: 0; /* Narrow margin for nested 4x cols */ }
+
+/* IE Specific widths */
+* html .column .columns-2 .column { width: 47.5%; }
+* html .column .columns-3 .column { width: 31%; }
+* html .column .columns-4 .column { width: 22.5%; }
+
+
+/* =misc areas
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* www.w3c.org validation information links */
+#validation-info { margin: 2em auto 1em auto; text-align: center; }
+
+/* A bit of contextual navigation  */
+.quick-content-nav {
+  position: absolute; top: 2px; right: 7px;
+  margin: 0; padding: .1em 0;
+  border-top: solid .2em #8295B2; border-bottom: solid .2em #8295B2;
+	width: 10em;
+  z-index:  2;
+  font-size: 92%;
+}
+* html .quick-content-nav { right: 16.5em; } /* Of course, IE cannot be expected to position correctly */
+
+.good {
+  color: #360;
+}
+.flag {
+  color: #c90;
+}
+.bad {
+  color: red;
+}
+
+/* A notice - like 'The Site Will be Down' type thing. */
+.notice { border: solid #c00 2px; padding: .2em .5em; margin: .2em 0 .4em 0; }
+.notice>h1, .notice>h2, .notice>h3, .notice>h4, .notice>h5, .notice>h6
+{ color: #c00; } /* Set direct child headings red */
+
+/* Set all child headings red (IE only) */
+* html .notice h1,
+* html .notice h2,
+* html .notice h3,
+* html .notice h4,
+* html .notice h5,
+* html .notice h6
+{ color: #c00; } 
+
+/* 	Set attempt to set the color back for nested headings (IE only)
+		Note the 'inherit' doesn't work as expected in IE. */
+* html .notice * h1,
+* html .notice * h2,
+* html .notice * h3,
+* html .notice * h4,
+* html .notice * h5,
+* html .notice * h6
+{ color: #000; } 
+
+/* News item list */
+ul.news { list-style-type: none; }
+
+ul.news li {
+	display: block; padding: .3em .1em;
+	list-style-type: none; list-style-image: none;
+}
+
+/* =vcard =microformat =adr
+	Taken from: http://www.microformats.org/wiki/hcard
+	
+	vcard classes should be used to display contact information and addresses.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.vcard { display: block; border-left: solid 2px #345280; margin: .5em 0; padding-left: .2em; }
+.vcard h1, .vcard h2, .vcard h3, .vcard h4, .vcard h5, .vcard h6 { margin: .05em 0; }
+.adr { display: block; border-left: solid 2px #345280; margin: .5em 0; padding-left: .2em; }
+.vcard .adr { border-left: none; margin: 0; padding-left: 0em; }
+
+
+/* =news =atom =feed =hatom
+	A microformat for atom feeds called hatom.  Can be used for news items.
+	see: http://microformats.org/wiki/hatom
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+<div class="hfeed">
+	<h2>News Items</h2>
+	<ul>
+		<li class="hentry">
+			<h3 class="headline">My title</h3>
+			<div class="content">
+				<p>We had a bit of trouble with ...</p>
+				<p>We've restored the wiki and ...</p>
+				<p>If anyone is working to combat said spammers ...</p>
+			</div>
+			
+			<div class="post-info">
+				<abbr class="published" title="2005-10-10T14:07:00-07:00">October 10th, 2005</abbr>
+			</div>
+		</li>
+	</ul>
+</div>
+*/
+
+.hfeed { position: relative; clear: both; }
+.hfeed ul, ul.hfeed {
+	margin: 0; padding: 0; list-style-type: none; list-style-position: outside; /* padding-left: .5em; */
+}
+
+/* needed to override general li bullet rules */
+.hfeed li { list-style-type: none; list-style-image: none; } 
+
+.hfeed ul ul, ul.hfeed ul { list-style-type: disc; }
+
+.hfeed .hentry {
+	margin: 2em 0 1em 0; padding: 0; position: relative;
+	border-top: 2px solid #933;
+	text-indent: 0;
+}
+
+.hfeed .hentry .headline { color: #000; margin: .1em 0 .2em 0; }
+.hfeed .urgent .headline { color: #f00; }
+
+.hfeed .hentry .post-info {
+	display: block; position: absolute; top: -1.25em; right: .5em; width: 15em; height: 1.2em;
+	font-size: 110%; font-weight: bold; color: #933;
+}
+
+.sidebar .hfeed ul, .sidebar ul.hfeed,
+.area-2 .hfeed ul, .area-2 ul.hfeed,
+.area-3 .hfeed ul, .area-3 ul.hfeed
+{ padding: 0; }
+
+.sidebar .hfeed .hentry, .area-2 .hfeed .hentry, .area-3 .hfeed .hentry
+{ border: none; margin: .2em .1em .2em .5em; }
+
+.sidebar .hfeed .hentry .content, .sidebar .hfeed .hentry .post-info,
+.area-2 .hfeed .hentry .content, .area-2 .hfeed .hentry .post-info,
+.area-3 .hfeed .hentry .content, .area-3 .hfeed .hentry .post-info
+{ display: none; }
+
+.sidebar .hfeed .hentry .headline,
+.area-2 .hfeed .hentry .headline,
+.area-3 .hfeed .hentry .headline
+{
+	display: block; padding-left: 16px;
+	background: url(http://infotrek.er.usgs.gov/docs/usgs_vis_std/assets/dotted_bullet.gif);
+	background-position: 4px .2em;
+	background-repeat: no-repeat;
+}
+
+.sidebar .hfeed .urgent .headline,
+.area-2 .hfeed .urgent .headline,
+.area-3 .hfeed .urgent .headline
+{
+	background-position: left top;
+	background-image: url(http://infotrek.er.usgs.gov/docs/usgs_vis_std/assets/exclamation.gif);
+}
+
+
+/* =misc =tags =legend
+sample:
+<div class="legend">
+	<dl>
+		<dt>My Term to define, or legend entry</dt>
+		<dd>The definition of the term or entry</dd>
+		<dt>Another term, etc.</dt>
+		<dd>...</dd>
+	<dl>
+<div>
+
+Alternately, the div tag can be skipped and the legend class placed
+in the dl tag, however, this removes some of the formatting flexablity.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.legend dl, dl.legend { 
+	position: relative; margin: 0; padding: 0;
+}
+
+.legend dt {
+	float: left; clear: left; width: 10em;
+	margin: 0 0 .2em 0;	/* match the dd */
+	border-top: 1px #EDD solid;
+	color: #900;	font-weight: bold;
+}
+	
+.legend dd {
+	clear: right;
+	margin: 0 0 .2em 11em;	/* match the dt except for the left margin */
+	border-top: 1px #EDD solid;	/* just for aesthetic purposes */
+}
+.legend dd:after {
+	/* Keep items aligned, even if the dt is taller then the dd */
+	content: '[Ignore]'; display: block;  height: 0; clear: both; visibility: hidden;
+}
+
+/* =print
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.print-only { display: none; }
+

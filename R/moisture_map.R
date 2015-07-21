@@ -8,10 +8,12 @@
 #'@import XML
 #'@examples
 #'\dontrun{
-#'moisture_map(to_hist_percentile(ok_data()), ok_sites_metadata(ok_data()$station), out_file= 'soilmoisture_usgs.html')
+#'ok = to_hist_percentile(ok_data())
+#'ok_meta = ok_sites_metadata(ok$station)
+#'moisture_map(ok, ok_meta, out_file= '~/soilmoisture_usgs.html')
 #'}
 #'@export
-moisture_map <- function(data, metadata, out_file){
+moisture_map <- function(data, metadata, out_file=NULL){
   
 	
   soil_moisture <- select(data, station, value) %>% 
@@ -48,6 +50,10 @@ moisture_map <- function(data, metadata, out_file){
       title = paste0('Soil moisture<br/>',Sys.Date())) %>%
     setView(-109.36, 36.67, zoom = 4)
 
-  saveWidget(m, out_file, selfcontained = FALSE, libdir = NULL)
-  return(out_file)
+  if(is.null(out_file)){
+  	return(m)
+  }else{
+  	saveWidget(m, out_file, selfcontained = FALSE, libdir = NULL)
+  	return(out_file)
+  }
 }
