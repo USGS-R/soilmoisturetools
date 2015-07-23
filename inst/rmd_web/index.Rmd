@@ -1,5 +1,5 @@
 ---
-title: "Soil Moisture Network"
+title: "Pilot National Soil Moisture Network"
 output:
   html_document:
     includes:
