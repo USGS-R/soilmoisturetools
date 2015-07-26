@@ -14,7 +14,7 @@ Imports:
   stringr (>= 1.0.0),
   jsonlite, 
   rmarkdown, 
-  reshape2
-  
+  reshape2, 
+  netcdf.dsg
 License: file LICENSE
 Repository: http://github.com/USGS-R/soilmoisturetools
