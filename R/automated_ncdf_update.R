@@ -4,6 +4,7 @@
 #'@param outpath Path to store generated output
 #'
 #'@importFrom netcdf.dsg write_timeseries_dsg
+#'@importFrom reshape2 dcast
 #'
 #'@export
 automated_ncdf_update = function(output='.'){
