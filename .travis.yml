@@ -15,3 +15,7 @@ env:
      - NOT_CRAN="true" 
 r_github_packages:
     - rstudio/leaflet
+    - USGS-R/netcdf.dsg
+
+before_install:
+  - sudo apt-get install netcdf-bin libnetcdf-dev
