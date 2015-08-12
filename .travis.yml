@@ -15,3 +15,4 @@ env:
      - NOT_CRAN="true" 
 r_github_packages:
     - rstudio/leaflet
+    - USGS-R/netcdf.dsg
