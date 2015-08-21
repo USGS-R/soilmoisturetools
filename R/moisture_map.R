@@ -34,7 +34,7 @@ moisture_map <- function(data, metadata, out_file=NULL){
   col_types <- c( "#600000", "#E00000", "#E69800","#FFFF00","#FFFFFF","#D9F0A3","#ADDD8E","#78C679","#31A354","#006837")
   leg_vals <- seq(0,100, 10)
   cols <- colorNumeric(col_types, domain = leg_vals)
-  pops <- paste(station_loc$station, sprintf('<br/>(%1.1f)',station_loc$value), paste0('<br/>',station_loc$station))
+  pops <- paste("Station ID:", station_loc$station, sprintf('<br/>Value: %1.1f',station_loc$value))
   
   
   m = leaflet(station_loc) %>% 
