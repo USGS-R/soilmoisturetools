@@ -40,7 +40,8 @@ scan_sites_metadata = function(stationTriplets){
 	
 	df_out$elevation = as.numeric(df_out$elevation)
 	df_out$latitude  = as.numeric(df_out$latitude)
-	df_out$longitude  = as.numeric(df_out$longitude)
+	df_out$longitude = as.numeric(df_out$longitude)
+	df_out$station   = df_out$name
 	
 	return(df_out)
 }

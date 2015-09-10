@@ -29,7 +29,7 @@ tx_data = function(){
 	soil_df$datetime = as.POSIXct(strptime(soil_df$Time, "%FT%T", tz="UTC"))
 	
 	#concat station name and number together, add OK for Oklahoma
-	soil_df$station = paste(soil_df$StationName, toupper(state), sep=':')
+	soil_df$station = paste(soil_df$StationName, toupper(state), "TX_MESO", sep=':')
 	
 	soil_df = soil_df[,c('station','datetime','SoilM5', 'SoilM60', 'SoilM75')]
 	
@@ -39,8 +39,8 @@ tx_data = function(){
 	#pull out the numeric part, that's the depth
 	depths = str_extract_all(soil_long$variable, pattern = '[0-9]+', simplify = TRUE)
 	
-	#extract depth from variable name and convert to inches 
-	soil_long$depth_in = as.numeric(depths)/2.54
+	#extract depth from variable name
+	soil_long$depth_cm = as.numeric(depths)
 	
 	soil_long$variable = NULL
 	#convert to percent

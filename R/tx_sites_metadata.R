@@ -21,10 +21,11 @@ tx_sites_metadata = function(station_ids){
   
   meta = meta[meta$StationName != '', ]
   
-  meta$station = paste(meta$StationName, "TX", sep=':')
+  meta$station = paste(meta$StationName, "TX", sep=':', "TX_MESO")
   names(meta) = tolower(names(meta))
   
   meta = merge(data.frame(station=station_ids), meta, all.x=TRUE)
+  meta$name = meta$stationname  #add back as name
   
   return(meta)
 }

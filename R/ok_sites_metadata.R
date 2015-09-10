@@ -21,7 +21,7 @@ ok_sites_metadata = function(station_ids){
 	meta_path     = system.file('extdata/ok_mesonet_site_info.csv', package=packageName())
 	ok_meta = read.csv(meta_path, header=TRUE, as.is=TRUE)
 	
-	ok_meta$station = paste(ok_meta$stnm, "OK", ok_meta$stid, sep=':')
+	ok_meta$station = paste(ok_meta$stnm, "OK", "OK_MESO", sep=':')
 	
   ok_meta$latitude = ok_meta$nlat
   ok_meta$longitude = ok_meta$elon
