@@ -61,9 +61,15 @@ moisture_map <- function(data, metadata, out_file=NULL){
 
 build_popups = function(data){
 	
+	#this is just a hack for now. Need to persist or store this data in a different way
+	network = sapply(data$station, function(x){strsplit(x, ':')[[1]][3]})
+	network[network == 'TX_MESO'] = "Texas Mesonet"
+	network[network == 'OK_MESO'] = "Oklahoma Mesonet"
+	
+	
 	data$name[is.na(data$name)] = "unknown"
 	
-	sprintf("Station Name: %s<br/>Measurement depth: %i cm<br/><br/>Soil moisture percentile: %1.1f%%<br/>Last measurement: %s", 
-					data$name, data$depth_cm, data$value, format(data$datetime, '%m/%d/%Y %I:%M %p'))
+	sprintf("Station Name: %s<br/>Network Name: %s<br/>Measurement depth: %i cm<br/><br/>Soil moisture percentile: %1.1f%%<br/>Last measurement: %s", 
+					data$name, network, data$depth_cm, data$value, format(data$datetime, '%m/%d/%Y %I:%M %p'))
 	
 }
