@@ -34,7 +34,7 @@ ok_data = function(){
 	soil_df$VWC60 = tr_to_vwc(soil_df$TR60, soil_df$WCR60, soil_df$WCS60, soil_df$A60, soil_df$N60)
 	
 	#concat station name and number together, add OK for Oklahoma
-	soil_df$station = paste(soil_df$StationNum, toupper(state), soil_df$StationName, sep=':')
+	soil_df$station = paste(soil_df$StationNum, toupper(state), "OK_MESO", sep=':')
 	
 	soil_df$StationNum = NULL
 	soil_df$StationName = NULL
@@ -44,8 +44,8 @@ ok_data = function(){
 	soil_long = melt(soil_df, id.vars = c('station','datetime'))
 	soil_long$variable = as.character(soil_long$variable)
 	
-	#extract depth from variable name and convert to inches from cm 
-	soil_long$depth_in = as.numeric(substr(soil_long$variable, 4,5))/2.54
+	#extract depth from variable name
+	soil_long$depth_cm = as.numeric(substr(soil_long$variable, 4,5))
 	
 	soil_long$variable = NULL
 	

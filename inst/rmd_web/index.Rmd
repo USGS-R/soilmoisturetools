@@ -16,6 +16,10 @@ Last updated `r Sys.time()`
 
 ```{r, include=FALSE}
 library(soilmoisturetools)
+library(dplyr)
+
+key_metadata = c('station', 'latitude', 'longitude', 'name')
+
 #load a bunch of data
 ok     = to_hist_percentile(ok_data())
 ok_met = ok_sites_metadata(ok$station)
@@ -23,11 +27,29 @@ ok_met = ok_sites_metadata(ok$station)
 tx     = to_hist_percentile(tx_data())
 tx_met = tx_sites_metadata(tx$station)
 
-ok_met = ok_met[, intersect(names(ok_met), names(tx_met))]
-tx_met = tx_met[, intersect(names(ok_met), names(tx_met))]
+scan_sites = scan_sites_by_element_code("SMS")
+scan_met   = scan_sites_metadata(scan_sites)
+scan_met$station = scan_met$stationTriplet
 
-data = rbind(tx, ok)
-metadata = rbind(tx_met, ok_met)
+scan_2 = to_hist_percentile(scan_data(scan_sites, -2, start = Sys.Date()-as.difftime(2, units='hours')))
+scan_8 = to_hist_percentile(scan_data(scan_sites, -8, start = Sys.Date()-as.difftime(2, units='hours')))
+scan_20= to_hist_percentile(scan_data(scan_sites, -20, start = Sys.Date()-as.difftime(2, units='hours')))
+
+
+ok_met = ok_met[, key_metadata]
+tx_met = tx_met[, key_metadata]
+scan_met = scan_met[, key_metadata]
+
+data = rbind(tx, ok, scan_2, scan_8, scan_20)
+metadata = rbind(tx_met, ok_met, 
+								 left_join(scan_2, scan_met)[, key_metadata], 
+								 left_join(scan_8, scan_met)[, key_metadata], 
+								 left_join(scan_20, scan_met)[, key_metadata])
+
+##Doing this based on instruction from Partha
+data$value[data$value < 0 & data$value > -30] = 0
+data$value[data$value > 100 & data$value < 130] = 100
+data$value[data$value > 130 | data$value < -30] = NA
 
 ```
 
@@ -36,7 +58,7 @@ metadata = rbind(tx_met, ok_met)
 
 ```{r, echo=FALSE, warning=FALSE, fig.align='center'}
 
-depth_i = data$depth_in > 0 & data$depth_in < 10/2.54
+depth_i = data$depth_cm > 0 & data$depth_cm < 10
 
 moisture_map(data[depth_i, ], 
 						 metadata[depth_i, ],
@@ -49,7 +71,7 @@ moisture_map(data[depth_i, ],
 
 ```{r, echo=FALSE, warning=FALSE, fig.align='center'}
 
-depth_i = data$depth_in > 10/2.54 & data$depth_in < 30/2.54
+depth_i = data$depth_cm > 10 & data$depth_cm < 30
 
 moisture_map(data[depth_i, ], 
 						 metadata[depth_i, ],
@@ -62,7 +84,7 @@ moisture_map(data[depth_i, ],
 
 ```{r, echo=FALSE, warning=FALSE, fig.align='center'}
 
-depth_i = data$depth_in > 30/2.54 & data$depth_in < 100/2.54
+depth_i = data$depth_cm > 30 & data$depth_cm < 100
 
 moisture_map(data[depth_i, ], 
 						 metadata[depth_i, ],

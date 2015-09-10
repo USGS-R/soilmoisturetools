@@ -79,9 +79,9 @@ scan_data = function(stationTriplets, depth, start=Sys.Date()-as.difftime(1, uni
 	returns = xpathApply(content(out), '/*/*/*/return[values]', fun=parse_vals)
 	
 	all_out = do.call(rbind, returns)
-	all_out$depth_inch = depth
+	all_out$depth_cm = abs(round(depth*2.54)) #convert to cm and round this one because that's what TX group is doing
 	all_out$value = as.numeric(all_out$value)
-	
+	all_out$flag = NULL #drop flag for now, not using it, no other service has them
 	
 	return(all_out)
 }

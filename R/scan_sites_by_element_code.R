@@ -25,6 +25,12 @@ scan_sites_by_element_code = function(elementCd){
 	
 	out = POST(service_url, content_type("text/soap_xml; charset-utf-8"), body=toString.XMLNode(root))
 	sites = xpathSApply(content(out), '//return', xmlValue)
+	
+	
+	#Currently filter and just return SCAN sites, this may change in the future
+	id_strings = sapply(sites, function(x){strsplit(x, ":")[[1]][3]})
+	sites = sites[id_strings == "SCAN"]
+	
 	return(sites)
 }
 
