@@ -16,7 +16,7 @@
 moisture_map <- function(data, metadata, out_file=NULL){
   
 	
-  soil_moisture <- select(data, station, value, datetime, depth_cm) %>% 
+  soil_moisture <- select(data, station, value, vol_value, datetime, depth_cm) %>% 
     filter(!duplicated(station))
   
   soil_moisture$station <- as.character(soil_moisture$station)
@@ -69,7 +69,7 @@ build_popups = function(data){
 	
 	data$name[is.na(data$name)] = "unknown"
 	
-	sprintf("Station Name: %s<br/>Network Name: %s<br/>Measurement depth: %i cm<br/><br/>Soil moisture percentile: %1.1f%%<br/>Last measurement: %s", 
-					data$name, network, data$depth_cm, data$value, format(data$datetime, '%m/%d/%Y %I:%M %p'))
+	sprintf("Station Name: %s<br/>Network Name: %s<br/>Measurement depth: %i cm<br/><br/>Soil moisture percentile: %1.1f%%<br/>Volumetric soil moisture: %1.1f%%<br/>Last measurement: %s", 
+					data$name, network, data$depth_cm, data$value, data$vol_value, format(data$datetime, '%m/%d/%Y %I:%M %p'))
 	
 }
