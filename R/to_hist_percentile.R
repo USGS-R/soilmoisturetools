@@ -35,12 +35,13 @@ to_hist_percentile = function(data){
 	
 	data = merge(data, coeff, by=c('station_id', 'month', 'depth_cm'))
 	
+	data$vol_value = data$value
 	values = data$value/100
 	data$value = data$c4*values^4 + data$c3*values^3 + data$c2*values^2 + data$c1*values + data$c0
 	
 	data$value = data$value * 100
 	
-	return(data[, c('station', 'datetime', 'value', 'depth_cm')])
+	return(data[, c('station', 'datetime', 'value', 'vol_value', 'depth_cm')])
 	
 }
 
