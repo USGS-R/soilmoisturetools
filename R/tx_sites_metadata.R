@@ -3,7 +3,7 @@
 #'@param station_ids Character vector of station ids. 
 #'
 #'@description
-#'TX site metadata for OK mesonet sites. 
+#'TX site metadata for TX mesonet sites. 
 #'
 #'@return A data.frame of metadata. All metadata methods return a data.frame with 
 #'\code{station}, \code{latitude}, \code{longitude}

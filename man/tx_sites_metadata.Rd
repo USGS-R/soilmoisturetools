@@ -14,7 +14,7 @@ A data.frame of metadata. All metadata methods return a data.frame with
 \code{station}, \code{latitude}, \code{longitude}
 }
 \description{
-TX site metadata for OK mesonet sites.
+TX site metadata for TX mesonet sites.
 }
 \examples{
 tx = tx_data()
