@@ -17,6 +17,7 @@ to_hist_percentile = function(data){
 							 TX_MESO = "WestTexas_Coefficients.csv", 
 							 OK_MESO = "Oklahoma_mesonet.csv",
 							 SCAN    = "SCAN_Coefficients.csv",
+							 CRN     = "CRN_Coefficients.csv",
 							 'error'
 							 )
 	

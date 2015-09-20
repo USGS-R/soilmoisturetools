@@ -23,8 +23,8 @@ crn_data = function(){
 	soil_df$datetime = as.POSIXct(strptime(soil_df$Time, "%FT%T", tz="UTC"))
 	soil_df$Time = NULL
 	
-	#concat station name and number together, add OK for Oklahoma
-	soil_df$station = paste(soil_df$StationNum, toupper(state), soil_df$StationName, sep=':')
+	#concat station name and number together, add CRN
+	soil_df$station = paste(soil_df$StationNum, soil_df$StationName, toupper(state), sep=':')
 	
 	soil_df$StationNum = NULL
 	soil_df$StationName = NULL
@@ -34,8 +34,9 @@ crn_data = function(){
 	soil_long = melt(soil_df, id.vars = c('station','datetime'))
 	soil_long$variable = as.character(soil_long$variable)
 	
-	#extract depth from variable name and convert to inches from cm 
-	soil_long$depth_in = as.numeric(substr(soil_long$variable, 6, 8))/2.54
+	#extract depth from variable name and now sticking to cm
+	#soil_long$depth_in = as.numeric(substr(soil_long$variable, 6, 8))/2.54
+	soil_long$depth_cm = as.numeric(substr(soil_long$variable, 6, 8))
 	
 	soil_long$variable = NULL
 	
