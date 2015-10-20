@@ -28,15 +28,30 @@
 	One exception:  You may change the background image of the header by modifying
 	the background-image property of the '#header #banner-area' entry.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+#texas{
+  width:200px;
+}
 
+#nidis{
+  width:50px;
+}
+
+.logo{
+  margin:10px 0;
+}
+
+#learnMore{
+  float:right;
+  margin-top:10px;
+}
 
 #header { background-color: #fff; padding: 0; }
 
 #header #banner-area {
   position: relative; overflow:	hidden; width: 100%; height: 72px;
 	margin: 1px 0; padding: 0;
-	color: #fff; background-color: #141414;
-	background-image: url(http://infotrek.er.usgs.gov/docs/nawqa_www/nawqa_public_template/assets/drought-flood_banner.jpg); /* Modify for alternate banner images */
+	color: #fff; 
+	background-color: #000;
 	background-position: 178px 0px;
 	background-repeat: no-repeat;
 }
@@ -48,7 +63,7 @@
 
 /* Logo appears in the banner-area */
 #usgs-header-logo { float: left; border: none; padding: 0; margin: 0; }
-#usgs-header-logo a, #usgs-header-logo img { border: none; padding: 0; margin: 0; }
+#usgs-header-logo a, #usgs-header-logo img { border: none; padding: 0; margin: 0; float:left; }
 
 /* Standard Customer Service Area
 	Almost directly copied from USGS std's site. Sits in the upper rt corner of the page
@@ -58,6 +73,8 @@
 	height: 72px;
 	color:	 #fff; 
   background-color: #000;
+  margin-top:7px;
+  list-style:none;
   
 }
 
@@ -80,10 +97,16 @@
 	display: block;
 	margin: 1px 0; padding: 5px 0 5px 3px;
 	color:	#fff; background-color: #345280;
-	font-size: 120%; font-weight: bold;
+	font-weight: bold;
+	height:30px;
+}
+#site-title h1{
+  font-size:1.4em;
+  padding:0;
+  margin:0;
 }
 #site-title a, #site-title a:visited, #site-title a:active, #site-title a:link
-{ color:	inherit; background-color: transparent; font-weight: inherit; font-size: inherit; }
+{ color:	inherit; background-color: transparent; font-weight: inherit; }
 #site-title a:hover { color: #ccf; }
 
 /* For usgs-internal pages, this is used for the text: 'For Internal USGS Access Only' in the header */
