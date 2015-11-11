@@ -12,7 +12,7 @@ You can customize some areas of the header ONLY by making the changes in the cus
 	font: 14px Verdana, Arial, Helvetica, sans-serif;
 	width: 100%;
 	height: 5.14em;
-	background: #006633 url(http://www.usgs.gov/images/headers/hazards.jpg) 178px 0px no-repeat; 
+	background: #000; 
 	min-height: 72px;
 }
 #usgsbanner {
@@ -82,6 +82,7 @@ You can customize some areas of the header ONLY by making the changes in the cus
 	font:  1em/.5em Verdana, Arial, Helvetica, sans-serif;
 	height: 5.14em;
 	width: 10.5em;
+	list-style:none;
 }
 #usgsccsa a:link, #usgsccsa a:visited { 
 	font: bold 1em/1.3em Verdana, Arial, Helvetica, sans-serif; 
