@@ -1,20 +1,22 @@
 Package: soilmoisturetools
 Title: USGS Soil Moisture Portal tools
 Maintainer: Luke Winslow <lwinslow@usgs.gov>
-Version: 0.8.2
+Version: 0.8.1
 Author: Luke Winslow
-Description: Tools for accessing, processing and plotting soil moisture services.
-Imports: 
-	XML,
-	httr (>= 0.5),
-  leaflet (>= 0.0.15),
-  htmlwidgets,
-  dplyr, 
-  reshape2,
-  stringr (>= 1.0.0),
-  jsonlite, 
-  rmarkdown, 
-  reshape2, 
-  netcdf.dsg
+Description: Tools for accessing, processing and plotting soil moisture
+    services.
+Imports:
+    XML,
+    httr (>= 0.5),
+    leaflet (>= 0.0.15),
+    htmlwidgets,
+    dplyr,
+    reshape2,
+    stringr (>= 1.0.0),
+    jsonlite,
+    rmarkdown,
+    reshape2,
+    netcdf.dsg
 License: file LICENSE
 Repository: http://github.com/USGS-R/soilmoisturetools
+RoxygenNote: 5.0.1
