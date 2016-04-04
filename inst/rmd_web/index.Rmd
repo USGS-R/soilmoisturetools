@@ -11,7 +11,7 @@ output:
     
 ---
 
-Last updated `r Sys.time()`
+Last updated `r Sys.time()` CDT
 
 
 ```{r, include=FALSE}
