@@ -29,25 +29,25 @@ tx_met = tx_sites_metadata(tx$station)
 crn    = to_hist_percentile(crn_data())
 crn_met= crn_sites_metadata(crn$station)
 
-#scan_sites = scan_sites_by_element_code("SMS")
-#scan_met   = scan_sites_metadata(scan_sites)
-#scan_met$station = scan_met$stationTriplet
+scan_sites = scan_sites_by_element_code("SMS")
+scan_met   = scan_sites_metadata(scan_sites)
+scan_met$station = scan_met$stationTriplet
 
-#scan_2 = to_hist_percentile(scan_data(scan_sites, -2, start = Sys.Date()-as.difftime(2, units='hours')))
-#scan_8 = to_hist_percentile(scan_data(scan_sites, -8, start = Sys.Date()-as.difftime(2, units='hours')))
-#scan_20= to_hist_percentile(scan_data(scan_sites, -20, start = Sys.Date()-as.difftime(2, units='hours')))
+scan_2 = to_hist_percentile(scan_data(scan_sites, -2, start = Sys.Date()-as.difftime(2, units='hours')))
+scan_8 = to_hist_percentile(scan_data(scan_sites, -8, start = Sys.Date()-as.difftime(2, units='hours')))
+scan_20= to_hist_percentile(scan_data(scan_sites, -20, start = Sys.Date()-as.difftime(2, units='hours')))
 
 
 ok_met = ok_met[, key_metadata]
 tx_met = tx_met[, key_metadata]
-#scan_met = scan_met[, key_metadata]
+scan_met = scan_met[, key_metadata]
 crn_met  = crn_met[, key_metadata]
 
-data = rbind(tx, ok, crn)#, scan_2, scan_8, scan_20)
+data = rbind(tx, ok, crn), scan_2, scan_8, scan_20)
 metadata = rbind(tx_met, ok_met, 
-								 #left_join(scan_2, scan_met)[, key_metadata], 
-								 #left_join(scan_8, scan_met)[, key_metadata], 
-								 #left_join(scan_20, scan_met)[, key_metadata], 
+								 left_join(scan_2, scan_met)[, key_metadata], 
+								 left_join(scan_8, scan_met)[, key_metadata], 
+								 left_join(scan_20, scan_met)[, key_metadata], 
 								 crn_met)
 
 ##Doing this based on instruction from Partha
