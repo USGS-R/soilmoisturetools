@@ -43,7 +43,7 @@ tx_met = tx_met[, key_metadata]
 scan_met = scan_met[, key_metadata]
 crn_met  = crn_met[, key_metadata]
 
-data = rbind(tx, ok, crn), scan_2, scan_8, scan_20)
+data = rbind(tx, ok, crn, scan_2, scan_8, scan_20)
 metadata = rbind(tx_met, ok_met, 
 								 left_join(scan_2, scan_met)[, key_metadata], 
 								 left_join(scan_8, scan_met)[, key_metadata], 
