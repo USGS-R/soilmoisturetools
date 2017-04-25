@@ -5,8 +5,8 @@
 #   https://github.com/craigcitro/r-travis/wiki
 
 language: r
-
-sudo: required
+dist: trusty
+sudo: true
 
 warnings_are_errors: false
 env:
