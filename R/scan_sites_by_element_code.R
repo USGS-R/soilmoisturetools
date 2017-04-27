@@ -17,7 +17,7 @@ scan_sites_by_element_code = function(elementCd){
 	
 	body = newXMLNode("soap:Body", parent=root)
 	
-	cmd = newXMLNode("tns:getStations", namespaceDefinitions=c("tns"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService"), parent=body)
+	cmd = newXMLNode("tns:getStations", namespaceDefinitions=c("tns"="http://wcc.sc.egov.usda.gov/awdbWebService"), parent=body)
 	
 	newXMLNode("elementCds", elementCd, parent=cmd)
 	newXMLNode("ordinals", 1, parent=cmd)
