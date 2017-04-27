@@ -22,7 +22,7 @@ scan_sites_metadata = function(stationTriplets){
 	
 	for(i in 1:length(stationChunks)){
 		
-		cmd = xmlNode("q0:getStationMetadataMultiple"))
+		cmd = xmlNode("q0:getStationMetadataMultiple")
 		
 		stationNodes = lapply(stationChunks[[i]], xmlNode, name="stationTriplets")
 		cmd = addChildren(cmd, kids=stationNodes)
