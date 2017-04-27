@@ -38,7 +38,7 @@
 scan_data = function(stationTriplets, depth, start=Sys.Date()-as.difftime(1, units='days'), end=Sys.Date()){
 	
 	
-	cmd = xmlNode("tns:getHourlyData", namespaceDefinitions=c("tns"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService"))
+	cmd = xmlNode("tns:getHourlyData", namespaceDefinitions=c("tns"="http://wcc.sc.egov.usda.gov/awdbWebService"))
 	
 	stationNodes = lapply(stationTriplets, xmlNode, name="stationTriplets")
   cmd = addChildren(cmd, kids=stationNodes)
