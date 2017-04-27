@@ -12,7 +12,7 @@
 #'
 #'@examples 
 #'\dontrun{
-#'scan_sites_metadata("9897:NM:UCOOP")
+#'scan_sites_metadata("2057:AL:SCAN")
 #'}
 #'@export
 scan_sites_metadata = function(stationTriplets){
@@ -22,14 +22,14 @@ scan_sites_metadata = function(stationTriplets){
 	
 	for(i in 1:length(stationChunks)){
 		
-		cmd = xmlNode("tns:getStationMetadataMultiple", namespaceDefinitions=c("tns"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService"))
+		cmd = xmlNode("q0:getStationMetadataMultiple"))
 		
 		stationNodes = lapply(stationChunks[[i]], xmlNode, name="stationTriplets")
 		cmd = addChildren(cmd, kids=stationNodes)
 			
-		body = xmlNode("soap:Body", cmd)
+		body = xmlNode("SOAP-ENV:Body", cmd)
 		
-		root = xmlNode("soap:Envelope", namespaceDefinitions=c("soap"="http://schemas.xmlsoap.org/soap/envelope/", "xsd"="http://www.w3.org/2001/XMLSchema"), body)
+		root = xmlNode("SOAP-ENV:Envelope", namespaceDefinitions=c("SOAP-ENV"="http://schemas.xmlsoap.org/soap/envelope/", "q0"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService", "xsd"="http://www.w3.org/2001/XMLSchema", "xsi"="http://www.w3.org/2001/XMLSchema-instance"), body)
 		
 		out = POST(service_url, content_type("text/soap_xml; charset-utf-8"), body=toString.XMLNode(root))
 		#values = xpathSApply(content(out), '//values', xmlValue)
