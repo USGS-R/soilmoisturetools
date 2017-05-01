@@ -32,56 +32,65 @@
 #'data_20 = scan_data(stations, -20)
 #'
 #'#40 inch
-#'data_20 = scan_data(stations, -40)
+#'data_40 = scan_data(stations, -40)
 #'}
 #'@export
 scan_data = function(stationTriplets, depth, start=Sys.Date()-as.difftime(1, units='days'), end=Sys.Date()){
 	
+  returns = data.frame()
+  stationChunks = split(stationTriplets, ceiling(seq_along(stationTriplets)/5))
+  
+  for(i in 1:length(stationChunks)){
+  
+	  cmd = xmlNode("q0:getHourlyData")
 	
-	cmd = xmlNode("tns:getHourlyData", namespaceDefinitions=c("tns"="http://wcc.sc.egov.usda.gov/awdbWebService"))
+	  stationNodes = lapply(stationChunks[[i]], xmlNode, name="stationTriplets")
+    cmd = addChildren(cmd, kids=stationNodes)
 	
-	stationNodes = lapply(stationTriplets, xmlNode, name="stationTriplets")
-  cmd = addChildren(cmd, kids=stationNodes)
-	
-	cmd = addChildren(cmd, kids=list(
+	  cmd = addChildren(cmd, kids=list(
 		xmlNode("ordinal", 1),
 		xmlNode("beginDate", as.character(start)),
 		xmlNode("endDate", as.character(end))))
 	
-	#newXMLNode("getFlags", "true", parent=cmd)
-	#newXMLNode("alwaysReturnDailyFeb29", "true", parent=cmd)
-	#newXMLNode("duration", "DAILY", parent=cmd)
-	hd = xmlNode("heightDepth", 
-		xmlNode("unitCd",'in'),
-		xmlNode("value", depth))
-	
-	cmd = addChildren(cmd, kids=list(
-		hd, 
-		xmlNode("elementCd", "SMS")
-		))
-	
-	body = xmlNode("soap:Body", cmd)
-	
-	root = xmlNode("soap:Envelope", namespaceDefinitions=c("soap"="http://schemas.xmlsoap.org/soap/envelope/", "xsd"="http://www.w3.org/2001/XMLSchema"), body)
-	
-	out = POST(service_url, content_type("text/soap_xml; charset-utf-8"), body=toString.XMLNode(root))
-	#values = xpathSApply(content(out), '//values', xmlValue)
-	
-	parse_vals = function(x){
-		station = xpathSApply(x, 'stationTriplet', xmlValue)
-		datetime = xpathSApply(x, 'values/dateTime', xmlValue)
-		flag = xpathSApply(x, 'values/flag', xmlValue)
-		value = xpathSApply(x, 'values/value', xmlValue, trim=TRUE)
-		
-		return(data.frame(station, datetime, flag, value, stringsAsFactors = FALSE))
-	}
-	
-	returns = xpathApply(content(out), '/*/*/*/return[values]', fun=parse_vals)
-	
-	all_out = do.call(rbind, returns)
-	all_out$depth_cm = floor(abs(depth*2.54)) #convert to cm and round this one because that's what TX group is doing
-	all_out$value = as.numeric(all_out$value)
-	all_out$flag = NULL #drop flag for now, not using it, no other service has them
+  	#newXMLNode("getFlags", "true", parent=cmd)
+  	#newXMLNode("alwaysReturnDailyFeb29", "true", parent=cmd)
+  	#newXMLNode("duration", "DAILY", parent=cmd)
+  	hd = xmlNode("heightDepth", 
+  		xmlNode("unitCd",'in'),
+  		xmlNode("value", depth))
+  	
+  	cmd = addChildren(cmd, kids=list(
+  		hd, 
+  		xmlNode("elementCd", "SMS")
+  		))
+  	
+  	body = xmlNode("SOAP-ENV:Body", cmd)
+  	
+  	root = xmlNode("SOAP-ENV:Envelope", namespaceDefinitions=c("SOAP-ENV"="http://schemas.xmlsoap.org/soap/envelope/", "q0"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService", "xsd"="http://www.w3.org/2001/XMLSchema", "xsi"="http://www.w3.org/2001/XMLSchema-instance"), body)
+  	
+  	out = POST(service_url, content_type("text/soap_xml; charset-utf-8"), body=toString.XMLNode(root))
+  	#values = xpathSApply(content(out), '//values', xmlValue)
+  	
+  	parse_vals = function(x){
+  	  station = xpathSApply(x, 'stationTriplet', xmlValue)
+  	  datetime = xpathSApply(x, 'values/dateTime', xmlValue)
+  	  flag = xpathSApply(x, 'values/flag', xmlValue)
+  	  value = xpathSApply(x, 'values/value', xmlValue, trim=TRUE)
+  		
+  		return(data.frame(station, datetime, flag, value, stringsAsFactors = FALSE))
+  	  
+  	  
+  	}
+    vals = xpathApply(content(out), '/*/*/*/return[values]', fun=parse_vals)
+  	vals = do.call(rbind, vals)
+  	returns = rbind(returns, vals)
+
+  }
+  
+  all_out = returns  
+  all_out$depth_cm = floor(abs(depth*2.54)) #convert to cm and round this one because that's what TX group is doing
+  all_out$value = as.numeric(all_out$value)
+  all_out$flag = NULL #drop flag for now, not using it, no other service has them
 	
 	return(all_out)
 }
