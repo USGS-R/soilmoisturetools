@@ -16,11 +16,11 @@
 #'@export
 scan_elements = function(){
 	
-	root = newXMLNode("soap:Envelope", namespaceDefinitions=c("soap"="http://schemas.xmlsoap.org/soap/envelope/", "xsd"="http://www.w3.org/2001/XMLSchema"))
+	root = newXMLNode("SOAP-ENV:Envelope", namespaceDefinitions=c("SOAP-ENV"="http://schemas.xmlsoap.org/soap/envelope/", "q0"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService", "xsd"="http://www.w3.org/2001/XMLSchema", "xsi"="http://www.w3.org/2001/XMLSchema-instance"))
 	
-	body = newXMLNode("soap:Body", parent=root)
+	body = newXMLNode("SOAP-ENV:Body", parent=root)
 	
-	cmd = newXMLNode("tns:getElements", namespaceDefinitions=c("tns"="http://www.wcc.nrcs.usda.gov/ns/awdbWebService"), parent=body)
+	cmd = newXMLNode("q0:getElements", parent=body)
 	
 	#newXMLNode("elementCds", element_code, parent=cmd)
 	#newXMLNode("ordinals", 1, parent=cmd)
